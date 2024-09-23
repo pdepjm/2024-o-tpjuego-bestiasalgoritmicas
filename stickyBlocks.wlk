@@ -11,18 +11,32 @@ object juegoStickyBlock {
   }
 }
 
+//==========================| Entidades |==========================
 class PersonajePrincipal{
   method iniciar(){
-    game.addVisualCharacter(self)
-  }
+    game.addVisual(self)
 
+    //Movimiento
+    keyboard.up().onPressDo({self.moveTo(position.up(1))})
+    keyboard.down().onPressDo({self.moveTo(position.down(1))})
+    keyboard.left().onPressDo({self.moveTo(position.left(1))})
+    keyboard.right().onPressDo({self.moveTo(position.right(1))})
+  }
+  
   //Imagen
   method image() = "RojoAnim.gif"
 
-  //Posision
+  //Posicion
   var property position
+
+  //Movimiento
+  method moveTo(newPosition){
+    const puedeAvanzar = game.getObjectsIn(newPosition).all({objeto => objeto.esPisable()})
+    if(puedeAvanzar) position = newPosition
+  }
 }
 
+//==========================| Entorno |==========================
 class Meta{
   method iniciar(){
     game.addVisual(self)
@@ -35,6 +49,9 @@ class Meta{
   const position
 
   method position() = position
+
+  //Colision
+  method esPisable() = true
 }
 
 class Pared{
@@ -57,6 +74,10 @@ class Pared{
   const position
 
   method position() = position
+
+  //Colision
+  method esPisable() = false
+
 }
 
 class Suelo{
@@ -79,6 +100,10 @@ class Suelo{
   const position
 
   method position() = position
+
+  //Colision
+  method esPisable() = true
+
 }
 
 //==========================| Creacion de Niveles |==========================
@@ -89,9 +114,9 @@ class Nivel {
     self.drawCharacters()
   }
 
-const mainCharacterPosition
+  const mainCharacterPosition
 
-const initialGridMap
+  const initialGridMap
 
   method drawGridMap(){
     var y = 10
@@ -105,6 +130,7 @@ const initialGridMap
     })
   }
 
+  //inciializacion de personaje
   method drawCharacters(){
     const personajePrincipal = new PersonajePrincipal(position = mainCharacterPosition)
     personajePrincipal.iniciar()
