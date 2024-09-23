@@ -1,0 +1,8 @@
+import wollok.game.*
+
+import stickyBlocks.juegoStickyBlock
+
+program StickyBlock {
+	juegoStickyBlock.iniciar()
+	game.start()
+}

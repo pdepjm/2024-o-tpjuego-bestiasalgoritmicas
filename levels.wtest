@@ -1,0 +1,19 @@
+import stickyBlocks.*
+
+//==========================| Niveles Instanciados |==========================
+
+const nivel1 = new Nivel(
+  mainCharacterPosition = game.at(7, 6),
+  initialGridMap = [
+    [v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v],
+    [v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v],
+    [v,v,v,v,p,p,p,p,p,p,p,p,p,p,p,v,v,v,v,v],
+    [v,v,v,v,p,_,_,_,_,p,_,_,_,_,p,v,v,v,v,v],
+    [v,v,v,v,p,_,_,_,_,p,_,_,_,_,p,v,v,v,v,v],
+    [v,v,v,v,p,_,_,_,_,p,_,_,g,_,p,v,v,v,v,v],
+    [v,v,v,v,p,_,_,_,_,_,_,_,_,_,p,v,v,v,v,v],
+    [v,v,v,v,p,_,_,_,_,_,_,_,_,_,p,v,v,v,v,v],
+    [v,v,v,v,p,p,p,p,p,p,p,p,p,p,p,v,v,v,v,v],
+    [v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v]
+  ]
+)

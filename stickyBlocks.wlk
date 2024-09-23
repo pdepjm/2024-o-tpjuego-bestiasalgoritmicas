@@ -1,0 +1,145 @@
+import levels.*
+
+object juegoStickyBlock {
+  method iniciar(){
+    game.title("StickyBlock")
+	  game.height(10)
+	  game.width(20)
+    game.boardGround("Fondo.png")
+
+    nivel1.iniciar()
+  }
+}
+
+class PersonajePrincipal{
+  method iniciar(){
+    game.addVisualCharacter(self)
+  }
+
+  //Imagen
+  method image() = "RojoAnim.gif"
+
+  //Posision
+  var property position
+}
+
+class Meta{
+  method iniciar(){
+    game.addVisual(self)
+  }
+
+  //Imagen
+  method image() = "Salida.png"
+
+  //Posision
+  const position
+
+  method position() = position
+}
+
+class Pared{
+  method iniciar(){
+    self.choseImage()
+    game.addVisual(self)
+  }
+
+  //Imagen
+  const images = ["Ladrillo1.png","Ladrillo2.png","Ladrillo3.png","Ladrillo4.png"]
+  var image = ""
+
+  method image() = image
+
+  method choseImage(){
+    image = images.randomized().head()
+  }
+
+  //Posision
+  const position
+
+  method position() = position
+}
+
+class Suelo{
+  method iniciar(){
+    self.choseImage()
+    game.addVisual(self)
+  }
+
+  //Imagen
+  const images = ["Piso1.png","Piso1.png","Piso1.png","Piso1.png","Piso1.png","Piso1.png","Piso1.png","Piso1.png", "Piso2.png", "Piso3.png"]
+  var image = ""
+
+  method image() = image
+
+  method choseImage(){
+    image = images.randomized().head()
+  }
+
+  //Posision
+  const position
+
+  method position() = position
+}
+
+//==========================| Creacion de Niveles |==========================
+class Nivel {
+
+  method iniciar(){
+    self.drawGridMap()
+    self.drawCharacters()
+  }
+
+const mainCharacterPosition
+
+const initialGridMap
+
+  method drawGridMap(){
+    var y = 10
+    var x = 0
+    initialGridMap.forEach({row =>
+      row.forEach({cell => cell.decode(x, y)
+      x+=1
+    })
+    y-=1
+    x=0
+    })
+  }
+
+  method drawCharacters(){
+    const personajePrincipal = new PersonajePrincipal(position = mainCharacterPosition)
+    personajePrincipal.iniciar()
+  }
+}
+
+//------------------| Representaciones del GridMap |------------------
+
+//-------(Entorno)-------
+
+//Pared
+object p{
+  method decode(x,y){
+    const pared = new Pared(position = game.at(x, y))
+    pared.iniciar()
+  }
+}
+
+//Suelo
+object _{
+  method decode(x,y){
+    const suelo = new Suelo(position = game.at(x, y))
+    suelo.iniciar()
+  }
+}
+
+//Vacio
+object v{
+  method decode(_x,_y){}
+}
+
+//Meta
+object g{
+  method decode(x,y){
+    const meta = new Meta(position = game.at(x, y))
+    meta.iniciar()
+  }
+}
