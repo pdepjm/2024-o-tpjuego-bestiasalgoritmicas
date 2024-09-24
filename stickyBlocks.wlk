@@ -227,7 +227,7 @@ class Lampara{
   const property position
 
   //Colision
-  method esPisable() = false
+  method esPisable() = true
 
   method interactuarConPersonaje(pj){}
 }
