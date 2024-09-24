@@ -266,7 +266,7 @@ class Nivel {
   }
 
   method drawTopLayer(){
-    l.lampPosition().forEach({pos => 
+    l.lampPositions().forEach({pos => 
       const lampara = new Lampara(position = pos)
       lampara.iniciar()
     })
@@ -333,9 +333,9 @@ object z{
 }
 
 object l{
-  const property lampPosition = []
+  const property lampPositions = []
     method decode(x,y){
     p.decode(x, y)
-    lampPosition.add(game.at(x-1, y-1))
+    lampPositions.add(game.at(x-1, y-1))
   }
 }
