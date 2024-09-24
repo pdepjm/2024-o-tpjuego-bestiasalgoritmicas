@@ -12,6 +12,8 @@ object juegoStickyBlock {
 }
 
 //*==========================| Personajes |==========================
+
+//--------- Personaje Principal ---------
   class PersonajePrincipal{
     
     //Posicion
@@ -59,6 +61,7 @@ object juegoStickyBlock {
     }
   }
 
+//--------- Compis ---------
   class StickyBlock{
     method iniciar(){
       game.addVisual(self)
@@ -125,7 +128,7 @@ object juegoStickyBlock {
     }
   }
 
-  //--------------( Movimiento Colectivo )--------
+  //----------------| Movimiento Colectivo |----------------
 
   object arriba {
     method nuevaPosicion(objeto) = objeto.position().up(1)
