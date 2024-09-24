@@ -29,31 +29,34 @@ class PersonajePrincipal{
     game.onCollideDo(self, { objeto => objeto.interactuarConPersonaje(self) })
 
     //Movimiento
-    keyboard.up().onPressDo({movimiento = arriba self.moveTo(arriba.nuevaPosicion(self)) })
-    keyboard.down().onPressDo({movimiento = abajo self.moveTo(abajo.nuevaPosicion(self)) })
-    keyboard.left().onPressDo({movimiento = izquierda self.moveTo(izquierda.nuevaPosicion(self)) })
-    keyboard.right().onPressDo({movimiento = derecha self.moveTo(derecha.nuevaPosicion(self)) })
+    keyboard.up().onPressDo({movimiento = arriba self.moverCuerpo() })
+    keyboard.down().onPressDo({movimiento = abajo self.moverCuerpo() })
+    keyboard.left().onPressDo({movimiento = izquierda self.moverCuerpo() })
+    keyboard.right().onPressDo({movimiento = derecha self.moverCuerpo() })
   }
   
   //Imagen
-  method image() = "RojoAnim.gif"
+  method image() = "Rojo.png"
+  
+  //cuerpo
+  const cuerpo = [self]
 
-  method moveTo(newPosition){
-    const selfPuedeAvanzar = game.getObjectsIn(newPosition).all({objeto => objeto.esPisable()}) 
-    const stickyCompisPuedenAvanzar = stickyCompis.all({compi => compi.puedeAvanzar(movimiento.nuevaPosicion(compi))}) || stickyCompis.isEmpty()
-    
-    if(selfPuedeAvanzar && stickyCompisPuedenAvanzar) {
-      position = newPosition //Mueve al personaje principal
-      stickyCompis.forEach({compi => compi.moveTo(movimiento)}) //Mueve a los stickyCompis
-    }
+  method agregarACuerpo(compi){
+    cuerpo.add(compi)
   }
 
-  //StickyCompis
-  const stickyCompis = []
-
-  method agregarCompi(compi){
-    stickyCompis.add(compi)
+  method moverCuerpo(){
+    const cuerpoPuedeAvanzar = cuerpo.all({compi => compi.puedeAvanzar(movimiento.nuevaPosicion(compi))})
+    if(cuerpoPuedeAvanzar)
+    cuerpo.forEach({elemento => elemento.moveTo(movimiento)}) //Mueve a los elementos del cuerpo
   }
+
+  method puedeAvanzar(posicion) = game.getObjectsIn(posicion).all({objeto => objeto.esPisable()})
+
+  method moveTo(movment){
+    position = movment.nuevaPosicion(self)
+  }
+
 }
 
 class StickyBlock{
@@ -118,12 +121,12 @@ class HitBox{
 
   method interactuarConPersonaje(personajePrincipal){
     //Setea como compi al padre
-    personajePrincipal.agregarCompi(padre)
+    personajePrincipal.agregarACuerpo(padre)
     padre.setAsCompi()
   }
 }
 
-//==========================| Movimiento Colectivo |==========================
+//--------------| Movimiento Colectivo |----------------------
 
 object arriba {
   method nuevaPosicion(objeto) = objeto.position().up(1)
@@ -212,12 +215,29 @@ class Suelo{
 
 }
 
+class Lampara{
+  method iniciar(){
+    game.addVisual(self)
+  } 
+
+  //Imagen
+  method image() = "Lampara.png"
+
+  //Posicion
+  const property position
+
+  //Colision
+  method esPisable() = false
+
+  method interactuarConPersonaje(pj){}
+}
 //==========================| Creacion de Niveles |==========================
 class Nivel {
 
   method iniciar(){
     self.drawGridMap()
     self.drawCharacters()
+    self.drawTopLayer()
   }
 
   const initialGridMap
@@ -242,6 +262,13 @@ class Nivel {
     z.stickyBlockPositions().forEach({position => 
       const stickyBlock = new StickyBlock(position = position)
       stickyBlock.iniciar()
+    })
+  }
+
+  method drawTopLayer(){
+    l.lampPosition().forEach({pos => 
+      const lampara = new Lampara(position = pos)
+      lampara.iniciar()
     })
   }
 }
@@ -289,22 +316,26 @@ object m{
     mainCharacterPosition = game.at(x, y)
 
     //Creo suelo donde Spawnea el personaje principal
-    const suelo = new Suelo(position = mainCharacterPosition)
-    suelo.iniciar()
+    _.decode(x, y)
   }
 }
 
 object z{
-  const stickyBlockPositions = []
-
-  method stickyBlockPositions() = stickyBlockPositions
+  const property stickyBlockPositions = []
 
   method decode(x,y){
     //Guardo la posicion de los stickyBlocks
     stickyBlockPositions.add(game.at(x, y))
 
     //Creo suelo donde Spawnea el personaje principal
-    const suelo = new Suelo(position = game.at(x, y))
-    suelo.iniciar()
+    _.decode(x, y)
+  }
+}
+
+object l{
+  const property lampPosition = []
+    method decode(x,y){
+    p.decode(x, y)
+    lampPosition.add(game.at(x-1, y-1))
   }
 }
