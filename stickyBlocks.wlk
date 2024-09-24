@@ -25,39 +25,39 @@ object juegoStickyBlock {
     method iniciar(){
       game.addVisual(self)
 
-      //Colision
-      game.onCollideDo(self, { objeto => objeto.interactuarConPersonaje(self) })
+    // Colision
+    game.onCollideDo(self, { objeto => objeto.interactuarConPersonaje(self) })
 
-      //Movimiento
-      keyboard.up().onPressDo({movimiento = arriba self.moverCuerpo() })
-      keyboard.down().onPressDo({movimiento = abajo self.moverCuerpo() })
-      keyboard.left().onPressDo({movimiento = izquierda self.moverCuerpo() })
-      keyboard.right().onPressDo({movimiento = derecha self.moverCuerpo() })
-    }
-    
-    //Imagen
-    method image() = "Rojo.png"
-    
-    //cuerpo
-    const cuerpo = [self]
+    // Movimiento
+    keyboard.up().onPressDo({movimiento = arriba self.moverCuerpo() })
+    keyboard.down().onPressDo({movimiento = abajo self.moverCuerpo() })
+    keyboard.left().onPressDo({movimiento = izquierda self.moverCuerpo() })
+    keyboard.right().onPressDo({movimiento = derecha self.moverCuerpo() })
+  }
+  
+  // Imagen
+  method image() = "Rojo.png"
+  
+  // Cuerpo
+  const cuerpo = [self]
 
     method agregarACuerpo(compi){
       cuerpo.add(compi)
     }
 
-    method moverCuerpo(){
-      const cuerpoPuedeAvanzar = cuerpo.all({compi => compi.puedeAvanzar(movimiento.nuevaPosicion(compi))})
-      if(cuerpoPuedeAvanzar)
-      cuerpo.forEach({elemento => elemento.moveTo(movimiento)}) //Mueve a los elementos del cuerpo
-    }
-
-    method puedeAvanzar(posicion) = game.getObjectsIn(posicion).all({objeto => objeto.esPisable()})
+ // Desplazamiento
+  method puedeAvanzar(posicion) = game.getObjectsIn(posicion).all({objeto => objeto.esPisable()})
 
     method moveTo(movment){
       position = movment.nuevaPosicion(self)
     }
 
+  method moverCuerpo(){
+    const cuerpoPuedeAvanzar = cuerpo.all({compi => compi.puedeAvanzar(movimiento.nuevaPosicion(compi))})
+    if(cuerpoPuedeAvanzar)
+    cuerpo.forEach({elemento => elemento.moveTo(movimiento)}) //Mueve a los elementos del cuerpo
   }
+}
 
   class StickyBlock{
     method iniciar(){
