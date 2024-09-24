@@ -25,24 +25,31 @@ class PersonajePrincipal{
   method iniciar(){
     game.addVisual(self)
 
-    //Colision
+    // Colision
     game.onCollideDo(self, { objeto => objeto.interactuarConPersonaje(self) })
 
-    //Movimiento
+    // Movimiento
     keyboard.up().onPressDo({movimiento = arriba self.moverCuerpo() })
     keyboard.down().onPressDo({movimiento = abajo self.moverCuerpo() })
     keyboard.left().onPressDo({movimiento = izquierda self.moverCuerpo() })
     keyboard.right().onPressDo({movimiento = derecha self.moverCuerpo() })
   }
   
-  //Imagen
+  // Imagen
   method image() = "Rojo.png"
   
-  //cuerpo
+  // Cuerpo
   const cuerpo = [self]
 
   method agregarACuerpo(compi){
     cuerpo.add(compi)
+  }
+
+ // Desplazamiento
+  method puedeAvanzar(posicion) = game.getObjectsIn(posicion).all({objeto => objeto.esPisable()})
+
+  method moveTo(movment){
+    position = movment.nuevaPosicion(self)
   }
 
   method moverCuerpo(){
@@ -50,13 +57,6 @@ class PersonajePrincipal{
     if(cuerpoPuedeAvanzar)
     cuerpo.forEach({elemento => elemento.moveTo(movimiento)}) //Mueve a los elementos del cuerpo
   }
-
-  method puedeAvanzar(posicion) = game.getObjectsIn(posicion).all({objeto => objeto.esPisable()})
-
-  method moveTo(movment){
-    position = movment.nuevaPosicion(self)
-  }
-
 }
 
 class StickyBlock{
@@ -336,6 +336,6 @@ object l{
   const property lampPositions = []
     method decode(x,y){
     p.decode(x, y)
-    lampPositions.add(game.at(x-1, y-1))
+    lampPositions.add(game.at(x-1, y-1))1
   }
 }
