@@ -1,6 +1,4 @@
-
 import stickyBlocks.*
-
 //*==========================| Creacion de Niveles |==========================
 //---------(Clase)--------
   class Nivel {
@@ -14,6 +12,7 @@ import stickyBlocks.*
 
     const initialGridMap
 
+
     method drawGridMap(){
       var y = 10
       var x = 0
@@ -24,6 +23,13 @@ import stickyBlocks.*
       y-=1
       x=0
       })
+    }
+    //Goal
+    //* La idea es almacenar las posiciones de las metas para poder validar si cada bloque del cuerpo se corresponde con alguna
+    const property goalPositions = []
+
+    method addGoalPosition(x,y){
+      goalPositions.add(game.at(x, y))
     }
 
     //Personaje Principal
@@ -95,9 +101,10 @@ import stickyBlocks.*
 
   //Meta
   object g{
-    method decode(x,y,_level){
+    method decode(x,y,level){
       const meta = new Meta(position = game.at(x, y))
       meta.iniciar()
+      level.addGoalPosition(x,y)
     }
   }
 
@@ -134,8 +141,8 @@ import stickyBlocks.*
       [v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v],
       [v,v,v,v,p,p,p,p,p,p,p,p,p,p,p,v,v,v,v,v],
       [v,v,v,v,p,_,_,_,_,p,_,z,_,_,p,v,v,v,v,v],
-      [v,v,v,v,p,_,m,_,_,p,_,_,_,_,p,v,v,v,v,v],
-      [v,v,v,v,l,_,_,_,_,_,_,_,g,_,p,v,v,v,v,v],
+      [v,v,v,v,p,_,m,_,_,_,_,_,_,_,p,v,v,v,v,v],
+      [v,v,v,v,l,_,_,_,_,_,_,_,g,g,p,v,v,v,v,v],
       [v,v,v,v,p,_,_,_,z,_,_,_,g,_,p,v,v,v,v,v],
       [v,v,v,v,p,_,_,_,_,_,_,_,_,_,p,v,v,v,v,v],
       [v,v,v,v,p,p,p,p,p,p,p,p,p,p,p,v,v,v,v,v],
@@ -157,3 +164,17 @@ import stickyBlocks.*
       [v,v,v,v,v,v,v,v,v,v,v,v,v,v,z,v,v,v,v,v]
     ]
   )
+
+//Integrador de niveles¿?
+
+object nivel{
+  const niveles = [nivel1, nivel2]
+
+  method actual() = niveles.head()//? hace falta poner una variable o con esto alcanza
+
+  method siguiente() = nivel2 //! hardcodeado
+
+
+
+
+}
