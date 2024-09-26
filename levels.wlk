@@ -27,11 +27,13 @@ import stickyBlocks.*
     }
  
     //Goal
-    const property goalPositions = []
+    const goalPositions = []
 
     method addGoalPosition(x,y){
       goalPositions.add(game.at(x, y))
     }
+
+    method cuerpoSobreMeta(cuerpo) = goalPositions.all({goalPos => cuerpo.any({compi => compi.position() == goalPos})})
 
     //Personaje Principal
     var property mainCharacterPosition = null

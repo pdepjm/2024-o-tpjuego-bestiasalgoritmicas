@@ -20,7 +20,6 @@ object juegoStickyBlock {
 
 
 //*==========================| Personajes |==========================
-
 //--------- Personaje Principal ---------
   class PersonajePrincipal{
     
@@ -70,10 +69,8 @@ object juegoStickyBlock {
       cuerpo.forEach({elemento => elemento.moveTo(movimiento)}) //Mueve a los elementos del cuerpo
     }
 
-    // Meta
-
-    // Verifica si para todos los bloques de la meta existe algun bloque del cuerpo con el que compartan posición
-    method cuerpoEnLaMeta() = juegoStickyBlock.nivelActual().goalPositions().all({goalPos => cuerpo.any({compi => compi.position() == goalPos})}) //!hay que delegar el chequeo de la posicion a cada objeto (debe existir ya una forma de chequear si est{a en una posición
+    // Victoria
+    method victoraValida() = juegoStickyBlock.nivelActual().cuerpoSobreMeta(cuerpo) // Verifica si existen compis sobre cada meta
   }
 
 //--------- StickyCompis ---------
@@ -180,11 +177,11 @@ object juegoStickyBlock {
     method esPisable() = true
 
     method interactuarConPersonaje(personajePrincipal){
-    const ganoNivel = personajePrincipal.cuerpoEnLaMeta()
-    if(ganoNivel)
-    juegoStickyBlock.nivelActual().siguienteNivel().iniciar() //t0do eso solamente para decir nivel.siguiente() 
-    }
 
+      //Verifica si ha ganado el nivel
+      const ganoNivel = personajePrincipal.victoraValida()
+      if (ganoNivel) juegoStickyBlock.nivelActual().siguienteNivel().iniciar() //TODO: pasar de nivel debe ser delegado al juego
+    }
   }
 
   class Pared{
