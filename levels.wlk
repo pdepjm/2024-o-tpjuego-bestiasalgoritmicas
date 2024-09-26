@@ -170,4 +170,3 @@ import stickyBlocks.*
     siguienteNivel = null
   )
 
-//Integrador de niveles¿?

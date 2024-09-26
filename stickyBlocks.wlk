@@ -7,16 +7,71 @@ object juegoStickyBlock {
 	  game.width(20)
     game.boardGround("Fondo.png")
 
-    nivelActual.iniciar()
+    menu.iniciar()
   }
 
   var property nivelActual = nivel1
+
+  method siguienteNivel(){
+    nivelActual = nivelActual.siguienteNivel()
+    nivelActual.iniciar()
+  }
 
   method clear(){
     game.allVisuals().forEach({visual => game.removeVisual(visual)})
   }
 }
 
+//*==========================| MENU Inical |==========================
+object menu{
+  method iniciar(){
+    juegoStickyBlock.clear()
+
+    menuActivo = true
+    levelMenuIsOpen = false
+
+    self.drawMenu()
+
+    keyboard.p().onPressDo({if(menuActivo) juegoStickyBlock.nivelActual().iniciar() menuActivo = false})
+    keyboard.l().onPressDo({if(menuActivo)self.toggleLevelMenu() levelMenuIsOpen = !levelMenuIsOpen})
+  }
+
+  var menuActivo = true  //! AYUDAA!! esto es una mierda pero no se como eliminar el onPressDo lpm
+  var levelMenu = null
+  var levelMenuIsOpen = false
+
+  method toggleLevelMenu() = if(levelMenuIsOpen) self.closeLevelMenu() else self.openLevelMenu()
+  
+  method drawMenu(){
+    new OnlyVisual(image = "Logo.png", position = game.at(7,6)).iniciar()
+    levelMenu = new OnlyVisual(image = "CloseMenu.png", position = game.at(6,3))
+    levelMenu.iniciar()
+  }
+
+  method closeLevelMenu(){
+    levelMenu.image("CloseMenu.png")
+    keyboard.num1().onPressDo({})
+  }
+
+  method openLevelMenu(){
+    levelMenu.image("OpenMenu.png")
+    keyboard.num1().onPressDo({if(menuActivo)nivel1.iniciar() menuActivo = false})
+    keyboard.num2().onPressDo({if(menuActivo)nivel2.iniciar() menuActivo = false})
+  }
+
+}
+
+//PD: Level menu podria ser un objeto pero...
+
+class OnlyVisual{
+  method iniciar(){
+    game.addVisual(self)
+  }
+
+  var property image 
+
+  const property position 
+}
 
 
 //*==========================| Personajes |==========================
@@ -180,7 +235,7 @@ object juegoStickyBlock {
 
       //Verifica si ha ganado el nivel
       const ganoNivel = personajePrincipal.victoraValida()
-      if (ganoNivel) juegoStickyBlock.nivelActual().siguienteNivel().iniciar() //TODO: pasar de nivel debe ser delegado al juego
+      if (ganoNivel) juegoStickyBlock.siguienteNivel()//TODO: pasar de nivel debe ser delegado al juego
     }
   }
 
