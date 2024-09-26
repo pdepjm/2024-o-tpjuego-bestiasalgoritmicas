@@ -8,6 +8,14 @@ object juegoStickyBlock {
     game.boardGround("Fondo.png")
 
     nivel1.iniciar()
+
+    keyboard.space().onPressDo({nivel2.iniciar()})
+
+    
+  }
+
+  method clear(){
+    game.allVisuals().forEach({visual => game.removeVisual(visual)})
   }
 }
 
@@ -61,7 +69,7 @@ object juegoStickyBlock {
     }
   }
 
-//--------- Compis ---------
+//--------- StickyCompis ---------
   class StickyBlock{
     method iniciar(){
       game.addVisual(self)
@@ -86,9 +94,10 @@ object juegoStickyBlock {
     ]
 
     //Setea el compi como elemento del cuerpo
-    method setAsCuerpo(){
+    method setAsCuerpo(personajePrincipal){
+      const pj = personajePrincipal
       self.eliminarHitBoxes()
-      game.onCollideDo(self, { objeto => objeto.interactuarConPersonaje(self) })
+      game.onCollideDo(self, {objeto => objeto.interactuarConPersonaje(pj)})
     }
 
     method iniciarHitBoxes(){
@@ -124,7 +133,7 @@ object juegoStickyBlock {
     method interactuarConPersonaje(personajePrincipal){
       //Setea como compi al padre
       personajePrincipal.agregarACuerpo(padre)
-      padre.setAsCuerpo()
+      padre.setAsCuerpo(personajePrincipal)
     }
   }
 
