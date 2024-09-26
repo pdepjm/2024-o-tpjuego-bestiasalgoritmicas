@@ -12,7 +12,8 @@ import stickyBlocks.*
 
     const initialGridMap
 
-
+    const property siguienteNivel
+    
     method drawGridMap(){
       var y = 10
       var x = 0
@@ -24,8 +25,8 @@ import stickyBlocks.*
       x=0
       })
     }
+ 
     //Goal
-    //* La idea es almacenar las posiciones de las metas para poder validar si cada bloque del cuerpo se corresponde con alguna
     const property goalPositions = []
 
     method addGoalPosition(x,y){
@@ -147,7 +148,8 @@ import stickyBlocks.*
       [v,v,v,v,p,_,_,_,_,_,_,_,_,_,p,v,v,v,v,v],
       [v,v,v,v,p,p,p,p,p,p,p,p,p,p,p,v,v,v,v,v],
       [v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v]
-    ]
+    ], 
+    siguienteNivel = nivel2
   )
 
     const nivel2 = new Nivel(
@@ -162,19 +164,8 @@ import stickyBlocks.*
       [v,v,v,v,v,v,v,v,p,v,v,v,v,v,v,v,v,v,v,v],
       [v,_,_,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v],
       [v,v,v,v,v,v,v,v,v,v,v,v,v,v,z,v,v,v,v,v]
-    ]
+    ], 
+    siguienteNivel = null
   )
 
 //Integrador de niveles¿?
-
-object nivel{
-  const niveles = [nivel1, nivel2]
-
-  method actual() = niveles.head()//? hace falta poner una variable o con esto alcanza
-
-  method siguiente() = nivel2 //! hardcodeado
-
-
-
-
-}

@@ -7,10 +7,10 @@ object juegoStickyBlock {
 	  game.width(20)
     game.boardGround("Fondo.png")
 
-    nivel1.iniciar()
-
-    keyboard.space().onPressDo({nivel2.iniciar()})
+    nivelActual.iniciar()
   }
+
+  var property nivelActual = nivel1
 
   method clear(){
     game.allVisuals().forEach({visual => game.removeVisual(visual)})
@@ -72,15 +72,8 @@ object juegoStickyBlock {
 
     // Meta
 
-    //* Verifica para cada elemento del cuerpo si está en la meta
-
-    // verifica si para todos los bloques de la meta existe algun bloque del cuerpo con el que compartan posición
-
-    method cuerpoEnLaMeta() = nivel.actual().goalPositions().all({goalPos => cuerpo.any({compi => compi.position() == goalPos})}) //!hay que delegar el chequeo de la posicion a cada objeto (debe existir ya una forma de chequear si est{a en una posición
-    /*method cuerpoEnLaMeta() = cuerpo.all({compi => compi.estaEnLaMeta()})*/
-
-    // //* Verifica si el pj principal está en la meta, fijandose si la posicion coincide con alguna de las de nivelActual.goalPositions()
-    // method estaEnLaMeta() = nivel.actual().goalPositions().contains(self.position())
+    // Verifica si para todos los bloques de la meta existe algun bloque del cuerpo con el que compartan posición
+    method cuerpoEnLaMeta() = juegoStickyBlock.nivelActual().goalPositions().all({goalPos => cuerpo.any({compi => compi.position() == goalPos})}) //!hay que delegar el chequeo de la posicion a cada objeto (debe existir ya una forma de chequear si est{a en una posición
   }
 
 //--------- StickyCompis ---------
@@ -109,17 +102,17 @@ object juegoStickyBlock {
 
     //Setea el compi como elemento del cuerpo del personaje principal
     method setAsCuerpo(personajePrincipal){
-      const pj = personajePrincipal //? Por qué no se puede usar directamente personajePrincipal?
+      const pj = personajePrincipal
       self.eliminarHitBoxes()
-      game.onCollideDo(self, {objeto => objeto.interactuarConPersonaje(pj)}) //* Ahora el bloque interactua con otros objetos como si fuese el pj principal  
+      game.onCollideDo(self, {objeto => objeto.interactuarConPersonaje(pj)}) 
     }
 
     method iniciarHitBoxes(){
-      hitBoxes.forEach({hitBox => hitBox.iniciar()}) //? Se puede usar addVisual directamente, o cambiar la de abajo (removeVisual) a una que se llame hitBox.eliminar() para que el código sea consistente
-    }
+      hitBoxes.forEach({hitBox => hitBox.iniciar()})
+    } 
 
     method eliminarHitBoxes(){
-      hitBoxes.forEach({hitBox => game.removeVisual(hitBox)})
+      hitBoxes.forEach({hitBox => hitBox.eliminar()})
     }
 
     //Puede avanzar
@@ -128,16 +121,15 @@ object juegoStickyBlock {
     method moveTo(movimiento){
       position = movimiento.nuevaPosicion(self)
     }
-
-    //Meta
-    // //* Verifica si el pj principal está en la meta, fijandose si la posicion coincide con alguna de las de nivelActual.goalPositions()
-    // method estaEnLaMeta() = nivel1.goalPositions().contains(self.position())
-
   }
 
   class HitBox{
     method iniciar(){
       game.addVisual(self)
+    }
+
+    method eliminar(){
+    game.removeVisual(self)
     }
 
     const padre
@@ -148,7 +140,6 @@ object juegoStickyBlock {
     //Colision
     method esPisable() = true
 
-    //* Cuando el main character colisiona con una hitbox, se agrega el padre de la hitbox a la lista de cuerpo del main, y se le avisa al padre que ahora tiene que comportarse como parte de ese cuerpo ()
     method interactuarConPersonaje(personajePrincipal){ 
       //Setea como compi al padre
       personajePrincipal.agregarACuerpo(padre)
@@ -157,7 +148,6 @@ object juegoStickyBlock {
   }
 
   //----------------| Movimiento Colectivo |----------------
-  //!                          ☝️¿Comunista?☝️
   object arriba {
     method nuevaPosicion(objeto) = objeto.position().up(1)
   }
@@ -189,12 +179,11 @@ object juegoStickyBlock {
     //Colision
     method esPisable() = true
 
-    method interactuarConPersonaje(pj){
-    //si la posición de cada bloque del cuerpo del pj coincide con una meta => siguiente nivel
-
-    if(pj.cuerpoEnLaMeta())
-    nivel.siguiente().iniciar()
-    } //TODO: Solo interactua con el rojo, no con el sticky.
+    method interactuarConPersonaje(personajePrincipal){
+    const ganoNivel = personajePrincipal.cuerpoEnLaMeta()
+    if(ganoNivel)
+    juegoStickyBlock.nivelActual().siguienteNivel().iniciar() //t0do eso solamente para decir nivel.siguiente() 
+    }
 
   }
 
