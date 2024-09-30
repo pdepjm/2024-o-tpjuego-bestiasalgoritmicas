@@ -33,7 +33,7 @@ import stickyBlocks.*
       goalPositions.add(game.at(x, y))
     }
 
-    method cuerpoSobreMeta(cuerpo) = goalPositions.all({goalPos => cuerpo.any({compi => compi.position() == goalPos})})
+    method cuerpoSobreMeta() = goalPositions.all({goalPos => cuerpo.compis().any({compi => compi.position() == goalPos})})
 
     //Personaje Principal
     var property mainCharacterPosition = null
@@ -46,9 +46,13 @@ import stickyBlocks.*
     }
 
     method drawCharacters(){
-      const personajePrincipal = new PersonajePrincipal(position = mainCharacterPosition)
-      personajePrincipal.iniciar()
 
+      //Instanciamos un StickyBlock pero lo inicializamos como cuerpo 
+      const personajePrincipal = new StickyBlock(position = mainCharacterPosition)
+      personajePrincipal.iniciar()
+      personajePrincipal.setAsCuerpo()
+
+      //Instanciamos los compis
       stickyBlockPositions.forEach({position => 
         const stickyBlock = new StickyBlock(position = position)
         stickyBlock.iniciar()
@@ -102,6 +106,22 @@ import stickyBlocks.*
     }
   }
 
+//Trampa
+  object o{
+    method decode(x,y,_level){
+      const agujero = new Agujero(position = game.at(x, y), activa = true)
+      agujero.iniciar()
+    }
+  }
+
+  //Trampa
+  object x{
+    method decode(x,y,_level){
+      const agujero = new Agujero(position = game.at(x, y), activa = false)
+      agujero.iniciar()
+    }
+  }
+
   //Meta
   object g{
     method decode(x,y,level){
@@ -145,7 +165,7 @@ import stickyBlocks.*
       [v,v,v,v,p,p,p,p,p,p,p,p,p,p,p,v,v,v,v,v],
       [v,v,v,v,p,_,_,_,_,p,_,z,_,_,p,v,v,v,v,v],
       [v,v,v,v,p,_,m,_,_,_,_,_,_,_,p,v,v,v,v,v],
-      [v,v,v,v,l,_,_,_,_,_,_,_,g,g,p,v,v,v,v,v],
+      [v,v,v,v,l,_,x,_,_,_,_,o,g,g,p,v,v,v,v,v],
       [v,v,v,v,p,_,_,_,z,_,_,_,g,_,p,v,v,v,v,v],
       [v,v,v,v,p,_,_,_,_,_,_,_,_,_,p,v,v,v,v,v],
       [v,v,v,v,p,p,p,p,p,p,p,p,p,p,p,v,v,v,v,v],

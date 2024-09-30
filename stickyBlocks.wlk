@@ -6,8 +6,9 @@ object juegoStickyBlock {
 	  game.height(10)
 	  game.width(20)
     game.boardGround("Fondo.png")
-
     menu.iniciar()
+    keyboard.m().onPressDo({menu.iniciar()})
+    cuerpo.iniciar()
   }
 
   var property nivelActual = nivel1
@@ -18,81 +19,69 @@ object juegoStickyBlock {
   }
 
   method clear(){
+    cuerpo.clear()	
     game.allVisuals().forEach({visual => game.removeVisual(visual)})
   }
 }
 
-//*==========================| MENU Inical |==========================
-object menu{
-  method iniciar(){
-    juegoStickyBlock.clear()
+//*==========================| MENU Inicial |==========================
+  object menu{
+    method iniciar(){
+      juegoStickyBlock.clear()
 
-    menuActivo = true
-    levelMenuIsOpen = false
+      menuActivo = true
+      levelMenuIsOpen = false
 
-    self.drawMenu()
+      self.drawMenu()
 
-    keyboard.p().onPressDo({if(menuActivo) juegoStickyBlock.nivelActual().iniciar() menuActivo = false})
-    keyboard.l().onPressDo({if(menuActivo)self.toggleLevelMenu() levelMenuIsOpen = !levelMenuIsOpen})
-  }
-
-  var menuActivo = true  //! AYUDAA!! esto es una mierda pero no se como eliminar el onPressDo lpm
-  var levelMenu = null
-  var levelMenuIsOpen = false
-
-  method toggleLevelMenu() = if(levelMenuIsOpen) self.closeLevelMenu() else self.openLevelMenu()
+      keyboard.p().onPressDo({if(menuActivo) {juegoStickyBlock.nivelActual().iniciar() menuActivo = false}})
+      keyboard.l().onPressDo({if(menuActivo) {self.toggleLevelMenu()}})
+    }
   
-  method drawMenu(){
-    new OnlyVisual(image = "Logo.png", position = game.at(7,6)).iniciar()
-    levelMenu = new OnlyVisual(image = "CloseMenu.png", position = game.at(6,3))
-    levelMenu.iniciar()
-  }
+    var menuActivo = true  //!AYUDA!! esto es una mierda pero no se como eliminar el onPressDo lpm
+    var levelMenu = null
+    var levelMenuIsOpen = false
 
-  method closeLevelMenu(){
-    levelMenu.image("CloseMenu.png")
-    keyboard.num1().onPressDo({})
-  }
-
-  method openLevelMenu(){
-    levelMenu.image("OpenMenu.png")
-    keyboard.num1().onPressDo({if(menuActivo)nivel1.iniciar() menuActivo = false})
-    keyboard.num2().onPressDo({if(menuActivo)nivel2.iniciar() menuActivo = false})
-  }
-
-}
-
-//PD: Level menu podria ser un objeto pero...
-
-class OnlyVisual{
-  method iniciar(){
-    game.addVisual(self)
-  }
-
-  var property image 
-
-  const property position 
-}
-
-
-//*==========================| Personajes |==========================
-//--------- Personaje Principal ---------
-  class PersonajePrincipal{
+    method toggleLevelMenu() = if(levelMenuIsOpen) self.closeLevelMenu() else self.openLevelMenu()
     
-    //Posicion
-    var property position
+    method drawMenu(){
+      new OnlyVisual(image = "Logo.png", position = game.at(7,6)).iniciar()
+      levelMenu = new OnlyVisual(image = "CloseMenu.png", position = game.at(6,3))
+      levelMenu.iniciar()
+    }
 
-    //Movimiento
-    var movimiento = null
+    method closeLevelMenu(){
+      levelMenu.image("CloseMenu.png")
+      levelMenuIsOpen = false
+    }
 
-    method esPisable() = true
+    method openLevelMenu(){
+      levelMenu.image("OpenMenu.png")
+      levelMenuIsOpen = true
+      keyboard.num1().onPressDo({if(menuActivo && levelMenuIsOpen) {nivel1.iniciar() menuActivo = false}})
+      keyboard.num2().onPressDo({if(menuActivo && levelMenuIsOpen) {nivel2.iniciar() menuActivo = false}})
+    }
 
+  }
+
+  //PD: Level menu podría ser un objeto pero...
+
+  class OnlyVisual{
     method iniciar(){
       game.addVisual(self)
+    }
 
-      
+    var property image 
 
-      // Colision
-      game.onCollideDo(self, { objeto => objeto.interactuarConPersonaje(self) })
+    const property position 
+  }
+
+//*==========================| Cuerpo |==========================
+  object cuerpo{
+
+    var movimiento = null
+
+    method iniciar(){
 
       // Movimiento
       keyboard.up().onPressDo({movimiento = arriba self.moverCuerpo() })
@@ -100,34 +89,33 @@ class OnlyVisual{
       keyboard.left().onPressDo({movimiento = izquierda self.moverCuerpo() })
       keyboard.right().onPressDo({movimiento = derecha self.moverCuerpo() })
     }
-  
-    // Imagen
-    method image() = "Rojo.png"
-  
-    // Cuerpo
-    const cuerpo = [self]
+
+    method clear(){
+      compis.clear()
+    }
+
+      // Cuerpo
+    const property compis = []
 
     method agregarACuerpo(compi){
-      cuerpo.add(compi)
+      compis.add(compi)
     }
 
-    // Desplazamiento
-    method puedeAvanzar(posicion) = game.getObjectsIn(posicion).all({objeto => objeto.esPisable()})
-
-    method moveTo(movement){
-      position = movement.nuevaPosicion(self)
+    method eliminarCompi(compi){
+      compis.remove(compi)
     }
-
+        
     method moverCuerpo(){
-      const cuerpoPuedeAvanzar = cuerpo.all({compi => compi.puedeAvanzar(movimiento.nuevaPosicion(compi))})
+      const cuerpoPuedeAvanzar = compis.all({compi => compi.puedeAvanzar(movimiento.nuevaPosicion(compi))})
       if(cuerpoPuedeAvanzar)
-      cuerpo.forEach({elemento => elemento.moveTo(movimiento)}) //Mueve a los elementos del cuerpo
+      compis.forEach({elemento => elemento.moveTo(movimiento)}) //Mueve a los elementos del cuerpo
     }
 
     // Victoria
-    method victoraValida() = juegoStickyBlock.nivelActual().cuerpoSobreMeta(cuerpo) // Verifica si existen compis sobre cada meta
+      method victoriaValida() = juegoStickyBlock.nivelActual().cuerpoSobreMeta() // Verifica si existen compis sobre cada meta
   }
 
+//*==========================| Personajes |==========================
 //--------- StickyCompis ---------
   class StickyBlock{
     method iniciar(){
@@ -136,7 +124,7 @@ class OnlyVisual{
     }
     
     //Imagen
-    method image() = "Azul.png"
+    method image() = "Rojo.png"
 
     //Posicion
     var property position
@@ -153,10 +141,13 @@ class OnlyVisual{
     ]
 
     //Setea el compi como elemento del cuerpo del personaje principal
-    method setAsCuerpo(personajePrincipal){
-      const pj = personajePrincipal
+    method setAsCuerpo(){
+
       self.eliminarHitBoxes()
-      game.onCollideDo(self, {objeto => objeto.interactuarConPersonaje(pj)}) 
+
+      cuerpo.agregarACuerpo(self)
+      
+      game.onCollideDo(self, {objeto => objeto.interactuarConPersonaje(self)}) 
     }
 
     method iniciarHitBoxes(){
@@ -173,8 +164,15 @@ class OnlyVisual{
     method moveTo(movimiento){
       position = movimiento.nuevaPosicion(self)
     }
-  }
 
+    //Desaparecer  🚙😥🔫
+    method desaparecer(){
+      game.removeVisual(self)
+      cuerpo.eliminarCompi(self)
+    }
+  }
+  
+//--------- HitBox ---------
   class HitBox{
     method iniciar(){
       game.addVisual(self)
@@ -192,10 +190,10 @@ class OnlyVisual{
     //Colision
     method esPisable() = true
 
-    method interactuarConPersonaje(personajePrincipal){ 
+    method interactuarConPersonaje(pj){ 
+      
       //Setea como compi al padre
-      personajePrincipal.agregarACuerpo(padre)
-      padre.setAsCuerpo(personajePrincipal)
+      padre.setAsCuerpo()
     }
   }
 
@@ -231,11 +229,12 @@ class OnlyVisual{
     //Colision
     method esPisable() = true
 
-    method interactuarConPersonaje(personajePrincipal){
+    method interactuarConPersonaje(pj){
 
       //Verifica si ha ganado el nivel
-      const ganoNivel = personajePrincipal.victoraValida()
-      if (ganoNivel) juegoStickyBlock.siguienteNivel()//TODO: pasar de nivel debe ser delegado al juego
+      const ganoNivel = cuerpo.victoriaValida()
+      if (ganoNivel) juegoStickyBlock.siguienteNivel()
+      
     }
   }
 
@@ -306,4 +305,39 @@ class OnlyVisual{
     method esPisable() = true
 
     method interactuarConPersonaje(pj){}
+  }
+
+  class Agujero{
+    method iniciar(){
+      self.choseImage()
+      game.addVisual(self)
+    }
+
+    var activa // activa = abierta
+
+    //Imagen
+    const images = ["Trampa2.png","Trampa3.png","Trampa4.png","Trampa5.png"]
+    var image = ""
+
+    method image() = image
+
+    method choseImage(){
+      image = if(activa) "Trampa1.png" else images.randomized().head()
+    
+    }
+
+    //Posicion
+    const property position
+
+    method activar(){
+      image = "Trampa1.png"
+      activa = true
+    }
+
+    //Colision
+    method esPisable() = true
+
+    method interactuarConPersonaje(compi){
+      if(activa) compi.desaparecer() else self.activar()
+    }
   }
