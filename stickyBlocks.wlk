@@ -8,6 +8,7 @@ object juegoStickyBlock {
     game.boardGround("Fondo.png")
     menu.iniciar()
     keyboard.m().onPressDo({menu.iniciar()})
+    keyboard.r().onPressDo({nivelActual.iniciar()})
     cuerpo.iniciar()
   }
 
@@ -34,6 +35,7 @@ object juegoStickyBlock {
 
       self.drawMenu()
 
+      keyboard.r().onPressDo({})
       keyboard.p().onPressDo({if(menuActivo) {juegoStickyBlock.nivelActual().iniciar() menuActivo = false}})
       keyboard.l().onPressDo({if(menuActivo) {self.toggleLevelMenu()}})
     }
@@ -84,6 +86,7 @@ object juegoStickyBlock {
     method iniciar(){
 
       // Movimiento
+      movimiento = null
       keyboard.up().onPressDo({movimiento = arriba self.moverCuerpo() })
       keyboard.down().onPressDo({movimiento = abajo self.moverCuerpo() })
       keyboard.left().onPressDo({movimiento = izquierda self.moverCuerpo() })
@@ -147,7 +150,7 @@ object juegoStickyBlock {
 
       cuerpo.agregarACuerpo(self)
       
-      game.onCollideDo(self, {objeto => objeto.interactuarConPersonaje(self)}) 
+      //game.onCollideDo(self, {objeto => objeto.interactuarConPersonaje(self)}) //! Esto no funciona es una cagada 😡😡💢
     }
 
     method iniciarHitBoxes(){
@@ -163,6 +166,7 @@ object juegoStickyBlock {
 
     method moveTo(movimiento){
       position = movimiento.nuevaPosicion(self)
+      game.getObjectsIn(position).forEach({objeto => objeto.interactuarConPersonaje(self)}) // Utilizamos esto como onCollideDo ya que on colide se saltea colisiones y va mas lento
     }
 
     //Desaparecer  🚙😥🔫
@@ -170,6 +174,8 @@ object juegoStickyBlock {
       game.removeVisual(self)
       cuerpo.eliminarCompi(self)
     }
+
+    method interactuarConPersonaje(pj){}
   }
   
 //--------- HitBox ---------
@@ -233,7 +239,7 @@ object juegoStickyBlock {
 
       //Verifica si ha ganado el nivel
       const ganoNivel = cuerpo.victoriaValida()
-      if (ganoNivel) juegoStickyBlock.siguienteNivel()
+      if (ganoNivel) {juegoStickyBlock.siguienteNivel()}
       
     }
   }

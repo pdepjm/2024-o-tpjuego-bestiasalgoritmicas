@@ -5,10 +5,13 @@ import stickyBlocks.*
 
     method iniciar(){
       juegoStickyBlock.clear()
+      self.clearPositions()
+
+      //Dibujo el nivel
+      new OnlyVisual(image="Menu-Reset.png",position = game.origin()).iniciar()
       self.drawGridMap()
       self.drawCharacters()
       self.drawTopLayer()
-      self.clearPositions()
     }
 
     method clearPositions(){
@@ -184,15 +187,31 @@ import stickyBlocks.*
     const nivel2 = new Nivel(
     initialGridMap = [
       [v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v],
-      [v,v,v,v,v,v,v,v,v,v,v,v,p,p,v,v,v,v,v,v],
+      [v,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,v],
+      [v,p,o,o,o,o,o,_,_,_,_,_,_,_,_,_,z,o,p,v],
+      [v,p,m,x,o,o,x,_,x,o,o,o,x,x,x,_,_,o,p,v],
+      [l,p,o,_,_,_,_,_,o,o,o,o,o,o,_,_,o,p,l],
+      [v,p,o,_,_,_,o,o,o,o,o,o,o,o,o,_,_,o,p,v],
+      [v,p,o,_,_,_,o,o,o,o,o,o,o,o,o,g,g,o,p,v],
+      [v,p,o,_,z,_,o,o,o,o,o,o,o,o,o,g,o,o,p,v],
+      [v,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,v],
+      [v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v]
+    ], 
+    siguienteNivel = nivel3
+  )
+
+  const nivel3 = new Nivel(
+    initialGridMap = [
       [v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v],
-      [v,v,m,v,v,v,v,v,v,v,v,v,v,v,v,v,p,v,v,v],
-      [v,v,v,v,v,v,v,l,v,v,v,v,v,v,v,v,v,v,v,v],
-      [v,v,v,v,z,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v],
       [v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v],
-      [v,v,v,v,v,v,v,v,p,v,v,v,v,v,v,v,v,v,v,v],
-      [v,_,_,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v],
-      [v,v,v,v,v,v,v,v,v,v,v,v,v,v,z,v,v,v,v,v]
+      [v,v,v,v,p,p,p,p,p,p,p,p,p,p,p,v,v,v,v,v],
+      [v,v,v,v,p,_,_,_,_,p,_,z,_,_,p,v,v,v,v,v],
+      [v,v,v,v,p,_,m,_,_,_,_,_,_,_,p,v,v,v,v,v],
+      [v,v,v,v,l,_,x,_,_,_,_,o,g,g,p,v,v,v,v,v],
+      [v,v,v,v,p,_,_,_,z,_,_,_,g,_,p,v,v,v,v,v],
+      [v,v,v,v,p,_,_,_,_,_,_,_,_,_,p,v,v,v,v,v],
+      [v,v,v,v,p,p,p,p,p,p,p,p,p,p,p,v,v,v,v,v],
+      [v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v]
     ], 
     siguienteNivel = null
   )
