@@ -8,6 +8,13 @@ import stickyBlocks.*
       self.drawGridMap()
       self.drawCharacters()
       self.drawTopLayer()
+      self.clearPositions()
+    }
+
+    method clearPositions(){
+      goalPositions.clear()
+      stickyBlockPositions.clear()
+      lampPosition.clear()
     }
 
     const initialGridMap
