@@ -109,10 +109,11 @@ object juegoStickyBlock {
     }
         
     method moverCuerpo(){
-      const cuerpoPuedeAvanzar = compis.all({compi => compi.puedeAvanzar(movimiento.nuevaPosicion(compi))})
-      if(cuerpoPuedeAvanzar)
-      compis.forEach({elemento => elemento.moveTo(movimiento)}) //Mueve a los elementos del cuerpo
 
+      const cuerpoPuedeAvanzar = compis.all({compi => compi.puedeAvanzar(movimiento.nuevaPosicion(compi))})
+
+      if(cuerpoPuedeAvanzar) compis.forEach({compi => compi.moveTo(movimiento) compi.collideWhith()}) //Mueve a los elementos del cuerpo //? y ejecuta Nuesto "Collider"
+      
       //game.flushEvents(game.currentTime()) //! Esto soluciona el problema de la colision pero genra mucho lag 😡😡💢
     }
 
@@ -168,6 +169,9 @@ object juegoStickyBlock {
 
     method moveTo(movimiento){
       position = movimiento.nuevaPosicion(self)
+    }
+
+    method collideWhith(){
       game.getObjectsIn(position).forEach({objeto => objeto.interactuarConPersonaje(self)}) //? Utilizamos esto como onCollideDo ya que on colide se saltea colisiones y va mas lento
     }
 
