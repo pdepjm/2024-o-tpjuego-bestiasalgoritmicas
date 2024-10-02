@@ -112,6 +112,8 @@ object juegoStickyBlock {
       const cuerpoPuedeAvanzar = compis.all({compi => compi.puedeAvanzar(movimiento.nuevaPosicion(compi))})
       if(cuerpoPuedeAvanzar)
       compis.forEach({elemento => elemento.moveTo(movimiento)}) //Mueve a los elementos del cuerpo
+
+      //game.flushEvents(game.currentTime()) //! Esto soluciona el problema de la colision pero genra mucho lag 😡😡💢
     }
 
     // Victoria
@@ -150,7 +152,7 @@ object juegoStickyBlock {
 
       cuerpo.agregarACuerpo(self)
       
-      //game.onCollideDo(self, {objeto => objeto.interactuarConPersonaje(self)}) //! Esto no funciona es una cagada 😡😡💢
+      // game.onCollideDo(self, {objeto => objeto.interactuarConPersonaje(self)}) //! Esto no funciona 😡😡💢
     }
 
     method iniciarHitBoxes(){
@@ -166,7 +168,7 @@ object juegoStickyBlock {
 
     method moveTo(movimiento){
       position = movimiento.nuevaPosicion(self)
-      game.getObjectsIn(position).forEach({objeto => objeto.interactuarConPersonaje(self)}) // Utilizamos esto como onCollideDo ya que on colide se saltea colisiones y va mas lento
+      game.getObjectsIn(position).forEach({objeto => objeto.interactuarConPersonaje(self)}) //? Utilizamos esto como onCollideDo ya que on colide se saltea colisiones y va mas lento
     }
 
     //Desaparecer  🚙😥🔫
