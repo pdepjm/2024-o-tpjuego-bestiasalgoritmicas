@@ -25,7 +25,7 @@ import stickyBlocks.*
     const property siguienteNivel
     
     method drawGridMap(){
-      var y = 10
+      var y = 9
       var x = 0
       initialGridMap.forEach({row =>
         row.forEach({cell => cell.decode(x, y, self)
@@ -168,14 +168,83 @@ import stickyBlocks.*
 
 //*==========================| Niveles Instanciados |==========================
 
+  //Move Tutorial
   const nivel1 = new Nivel(
     initialGridMap = [
       [v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v],
       [v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v],
       [v,v,v,v,p,p,p,p,p,p,p,p,p,p,p,v,v,v,v,v],
+      [v,v,v,v,p,_,_,_,_,p,_,_,_,_,p,v,v,v,v,v],
+      [v,v,v,v,p,_,m,_,_,p,_,_,_,_,p,v,v,v,v,v],
+      [v,v,v,v,l,_,_,_,_,_,_,_,g,_,p,v,v,v,v,v],
+      [v,v,v,v,p,_,_,_,_,_,_,_,_,_,p,v,v,v,v,v],
+      [v,v,v,v,p,_,_,_,_,_,_,_,_,_,p,v,v,v,v,v],
+      [v,v,v,v,p,p,p,p,p,p,p,p,p,p,p,v,v,v,v,v],
+      [v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v]
+    ], 
+    siguienteNivel = nivel2
+  )
+
+  //Friend Tutorial
+  const nivel2 = new Nivel(
+    initialGridMap = [
+      [v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v],
+      [v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v],
+      [v,v,v,v,p,p,p,p,p,p,p,p,p,p,p,v,v,v,v,v],
       [v,v,v,v,p,_,_,_,_,p,_,z,_,_,p,v,v,v,v,v],
-      [v,v,v,v,p,_,m,_,_,_,_,_,_,_,p,v,v,v,v,v],
-      [v,v,v,v,l,_,x,_,_,_,_,o,g,g,p,v,v,v,v,v],
+      [v,v,v,v,p,_,m,_,_,p,_,_,_,_,p,v,v,v,v,v],
+      [v,v,v,v,l,_,_,_,_,_,_,g,_,_,l,v,v,v,v,v],
+      [v,v,v,v,p,_,_,_,z,_,_,g,g,_,p,v,v,v,v,v],
+      [v,v,v,v,p,_,_,_,_,_,_,_,_,_,p,v,v,v,v,v],
+      [v,v,v,v,p,p,p,p,p,p,p,p,p,p,p,v,v,v,v,v],
+      [v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v]
+    ], 
+    siguienteNivel = nivel3
+  )
+
+  // Friends Levels
+  const nivel3 = new Nivel(
+    initialGridMap = [
+      [v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v],
+      [v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v],
+      [v,v,v,v,p,p,p,p,p,p,p,p,p,p,p,v,v,v,v,v],
+      [v,v,v,v,p,z,p,_,_,_,_,_,_,_,p,v,v,v,v,v],
+      [v,v,v,v,p,_,g,_,_,_,_,_,_,z,p,v,v,v,v,v],
+      [v,v,v,v,l,g,g,g,_,p,_,_,_,_,l,v,v,v,v,v],
+      [v,v,v,v,p,m,g,_,_,p,_,_,_,_,p,v,v,v,v,v],
+      [v,v,v,v,p,_,_,z,_,p,z,_,_,_,p,v,v,v,v,v],
+      [v,v,v,v,p,p,p,p,p,p,p,p,p,p,p,v,v,v,v,v],
+      [v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v]
+    ], 
+    siguienteNivel = nivel4
+  )
+
+  const nivel4 = new Nivel(
+   initialGridMap = [
+      [v,v,v,v,v,v,v,p,p,p,l,p,p,p,v,v,v,v,v,v],
+      [v,v,v,v,p,p,p,p,_,z,_,_,_,p,p,p,p,v,v,v],
+      [v,v,p,p,p,_,_,_,_,_,_,_,_,_,_,_,p,p,p,v],
+      [v,v,p,_,_,_,_,z,_,_,z,_,_,_,_,_,_,_,p,v],
+      [v,v,p,_,_,_,_,_,_,_,_,_,z,_,z,_,_,_,p,v],
+      [v,v,l,_,_,m,_,_,_,p,p,p,p,_,_,_,_,_,l,v],
+      [v,v,p,_,_,_,_,_,_,g,g,g,g,_,_,_,_,_,p,v],
+      [v,v,p,_,_,_,_,_,_,_,g,g,_,_,_,_,_,_,p,v],
+      [v,v,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,v],
+      [v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v]
+  ],
+    siguienteNivel = null
+  )
+
+
+
+  const nivelEjemplo = new Nivel(
+    initialGridMap = [
+      [v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v],
+      [v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v],
+      [v,v,v,v,p,p,p,p,p,p,p,p,p,p,p,v,v,v,v,v],
+      [v,v,v,v,p,_,_,_,_,p,_,z,_,_,p,v,v,v,v,v],
+      [v,v,v,v,p,_,m,_,_,p,_,_,_,_,p,v,v,v,v,v],
+      [v,v,v,v,l,_,x,_,_,_,_,o,g,g,l,v,v,v,v,v],
       [v,v,v,v,p,_,_,_,z,_,_,_,g,_,p,v,v,v,v,v],
       [v,v,v,v,p,_,_,_,_,_,_,_,_,_,p,v,v,v,v,v],
       [v,v,v,v,p,p,p,p,p,p,p,p,p,p,p,v,v,v,v,v],
@@ -184,35 +253,4 @@ import stickyBlocks.*
     siguienteNivel = nivel2
   )
 
-    const nivel2 = new Nivel(
-    initialGridMap = [
-      [v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v],
-      [v,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,v],
-      [v,p,o,o,o,o,o,_,_,_,_,_,_,_,_,_,z,o,p,v],
-      [v,p,m,x,o,o,x,_,x,o,o,o,x,x,x,_,_,o,p,v],
-      [l,p,o,_,_,_,_,_,o,o,o,o,o,o,_,_,o,p,l],
-      [v,p,o,_,_,_,o,o,o,o,o,o,o,o,o,_,_,o,p,v],
-      [v,p,o,_,_,_,o,o,o,o,o,o,o,o,o,g,g,o,p,v],
-      [v,p,o,_,z,_,o,o,o,o,o,o,o,o,o,g,o,o,p,v],
-      [v,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,v],
-      [v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v]
-    ], 
-    siguienteNivel = nivel3
-  )
-
-  const nivel3 = new Nivel(
-    initialGridMap = [
-      [v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v],
-      [v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v],
-      [v,v,v,v,p,p,p,p,p,p,p,p,p,p,p,v,v,v,v,v],
-      [v,v,v,v,p,_,_,_,_,p,_,z,_,_,p,v,v,v,v,v],
-      [v,v,v,v,p,_,m,_,_,_,_,_,_,_,p,v,v,v,v,v],
-      [v,v,v,v,l,_,x,_,_,_,_,o,g,g,p,v,v,v,v,v],
-      [v,v,v,v,p,_,_,_,z,_,_,_,g,_,p,v,v,v,v,v],
-      [v,v,v,v,p,_,_,_,_,_,_,_,_,_,p,v,v,v,v,v],
-      [v,v,v,v,p,p,p,p,p,p,p,p,p,p,p,v,v,v,v,v],
-      [v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v]
-    ], 
-    siguienteNivel = null
-  )
 
