@@ -9,6 +9,7 @@ object juegoStickyBlock {
     menu.iniciar()
     keyboard.m().onPressDo({menu.iniciar()})
     keyboard.r().onPressDo({nivelActual.iniciar()})
+    keyboard.t().onPressDo({nivelEjemplo.iniciar()})
     cuerpo.iniciar()
   }
 
@@ -55,15 +56,19 @@ object juegoStickyBlock {
     method closeLevelMenu(){
       levelMenu.image("CloseMenu.png")
       levelMenuIsOpen = false
+      keyboard.num1().onPressDo({})
+      keyboard.num2().onPressDo({})
+      keyboard.num3().onPressDo({})
+      keyboard.num4().onPressDo({})
     }
 
     method openLevelMenu(){
       levelMenu.image("OpenMenu.png")
       levelMenuIsOpen = true
-      keyboard.num1().onPressDo({if(menuActivo && levelMenuIsOpen) {nivel1.iniciar() juegoStickyBlock.nivelActual(nivel1) menuActivo = false}})
-      keyboard.num2().onPressDo({if(menuActivo && levelMenuIsOpen) {nivel2.iniciar() juegoStickyBlock.nivelActual(nivel2) menuActivo = false}})
-      keyboard.num3().onPressDo({if(menuActivo && levelMenuIsOpen) {nivel3.iniciar() juegoStickyBlock.nivelActual(nivel3) menuActivo = false}})
-      keyboard.num4().onPressDo({if(menuActivo && levelMenuIsOpen) {nivel4.iniciar() juegoStickyBlock.nivelActual(nivel4) menuActivo = false}})
+      keyboard.num1().onPressDo({if(menuActivo && levelMenuIsOpen) {nivel1.iniciar() juegoStickyBlock.nivelActual(nivel1)}})
+      keyboard.num2().onPressDo({if(menuActivo && levelMenuIsOpen) {nivel2.iniciar() juegoStickyBlock.nivelActual(nivel2)}})
+      keyboard.num3().onPressDo({if(menuActivo && levelMenuIsOpen) {nivel3.iniciar() juegoStickyBlock.nivelActual(nivel3)}})
+      keyboard.num4().onPressDo({if(menuActivo && levelMenuIsOpen) {nivel4.iniciar() juegoStickyBlock.nivelActual(nivel4)}})
     }
   }
 
@@ -113,7 +118,7 @@ object juegoStickyBlock {
 
       const cuerpoPuedeAvanzar = compis.all({compi => compi.puedeAvanzar(movimiento.nuevaPosicion(compi))})
 
-      if(cuerpoPuedeAvanzar) compis.forEach({compi => compi.moveTo(movimiento) game.schedule(150, { compi.collideWith() })}) //Mueve a los elementos del cuerpo //? y ejecuta Nuesto "Collider" 
+      if(cuerpoPuedeAvanzar) compis.forEach({compi => compi.moveTo(movimiento)  compi.collideWith()}) //Mueve a los elementos del cuerpo //? y ejecuta Nuesto "Collider" 
       //?PD: El "collider" lo hago como schedule ya que asi se ve visualmente que el pj se sube a la meta, en el otro caso no se ve ya que wollok calcula todo antes de ejecutar y cambia de nivel sin avanzar al personaje
       
       //game.flushEvents(game.currentTime()) //! Esto soluciona el problema de la colision pero genra mucho lag 😡😡💢
@@ -154,7 +159,6 @@ object juegoStickyBlock {
       self.eliminarHitBoxes()
 
       cuerpo.agregarACuerpo(self)
-      
       // game.onCollideDo(self, {objeto => objeto.interactuarConPersonaje(self)}) //! Esto no funciona 😡😡💢
     }
 
