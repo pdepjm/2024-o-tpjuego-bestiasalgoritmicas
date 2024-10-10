@@ -1,4 +1,6 @@
 import stickyBlocks.*
+import menuYTeclado.*
+
 //*==========================| Creacion de Niveles |==========================
 //---------(Clase)--------
   class Nivel {
@@ -12,6 +14,12 @@ import stickyBlocks.*
       self.drawGridMap()
       self.drawCharacters()
       self.drawTopLayer()
+
+      // Seteo el Teclado para el nivel
+      configTeclado.gameOn()
+
+      //Seteo el nivel actual
+      juegoStickyBlock.nivelActual(self)
     }
 
     method clearPositions(){
