@@ -9,9 +9,14 @@ object juegoStickyBlock {
 	  game.height(10)
 	  game.width(20)
     game.boardGround("Fondo.png")
+
+    //inicializo teclado
+    configTeclado.iniciar()
+
     //Inicio el menu
-    //menu.iniciar()
-    nivelActual.iniciar()
+    menu.iniciar()
+
+    //nivelActual.iniciar()
   }
 
   var property nivelActual = nivel1
@@ -290,3 +295,5 @@ object juegoStickyBlock {
       if(activa) compi.desaparecer() else self.activar()
     }
   }
+
+  

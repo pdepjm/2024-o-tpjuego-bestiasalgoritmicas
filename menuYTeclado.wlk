@@ -58,60 +58,61 @@ import levels.*
 
 //*==========================| Config Teclado |==========================
 
+
 object configTeclado{
-    method limpiarTeclado(){
-        
-        //Movimientos: OFF
-        keyboard.up().onPressDo({})
-        keyboard.down().onPressDo({})
-        keyboard.left().onPressDo({})
-        keyboard.right().onPressDo({})
 
-        //Menu: OFF
-        keyboard.m().onPressDo({})
-        keyboard.l().onPressDo({})
-        keyboard.r().onPressDo({})
+  var gameState = false
+  var menuState = false
+  var levelMenuState = false
 
-        //LevelMenu: OFF
-        keyboard.num1().onPressDo({})
-        keyboard.num2().onPressDo({})
-        keyboard.num3().onPressDo({})
-        keyboard.num4().onPressDo({})
+  method iniciar(){
 
-    }
+    //* GAME ON:
 
-    method gameOn(){
-        self.limpiarTeclado()
+      //Movimientos:
+      keyboard.up().onPressDo({if(gameState) cuerpo.moverCuerpo(arriba)})
+      keyboard.down().onPressDo({if(gameState) cuerpo.moverCuerpo(abajo)})
+      keyboard.left().onPressDo({if(gameState) cuerpo.moverCuerpo(izquierda)})
+      keyboard.right().onPressDo({if(gameState) cuerpo.moverCuerpo(derecha)})
 
-        //Movimientos:
-        keyboard.up().onPressDo({ cuerpo.moverCuerpo(arriba) })
-        keyboard.down().onPressDo({ cuerpo.moverCuerpo(abajo) })
-        keyboard.left().onPressDo({ cuerpo.moverCuerpo(izquierda) })
-        keyboard.right().onPressDo({ cuerpo.moverCuerpo(derecha) })
+      //Menu en nivel:
+      keyboard.m().onPressDo({if(gameState) menu.iniciar()})
+      keyboard.r().onPressDo({if(gameState) juegoStickyBlock.nivelActual.iniciar()})
 
-        //Menu en nivel:
-        keyboard.m().onPressDo({menu.iniciar()})
-        keyboard.r().onPressDo({juegoStickyBlock.nivelActual.iniciar()})
-    }
+    //* MENU ON:
+      keyboard.p().onPressDo({if(menuState) juegoStickyBlock.nivelActual().iniciar()})
+      keyboard.l().onPressDo({if(menuState) levelMenu.toggle()})
 
-    method menuOn(){
-        self.limpiarTeclado()
+    //* LEVEL MENU ON:
+      keyboard.num1().onPressDo({if(levelMenuState) nivel1.iniciar()})
+      keyboard.num2().onPressDo({if(levelMenuState) nivel2.iniciar()})
+      keyboard.num3().onPressDo({if(levelMenuState) nivel3.iniciar()})
+      keyboard.num4().onPressDo({if(levelMenuState) nivel4.iniciar()})
+    
+  }
 
-        //Menu:
-        keyboard.p().onPressDo({{juegoStickyBlock.nivelActual().iniciar()}})
-        keyboard.l().onPressDo({{levelMenu.toggle()}})
-    }
+  method limpiarTeclado(){
+    //Game: OFF
+    gameState = false
+    //Menu: OFF
+    menuState = false
+    //LevelMenu: OFF
+    levelMenuState = false
+  }
 
-    method levelMenuOn(){
-        self.limpiarTeclado()
+  method gameOn(){
+    self.limpiarTeclado()
+    gameState = true
+  }
 
-        //Menu:
-        self.menuOn()
+  method menuOn(){
+    self.limpiarTeclado()
+    menuState = true
+  }
 
-        //LevelMenu:
-        keyboard.num1().onPressDo({nivel1.iniciar()})
-        keyboard.num2().onPressDo({nivel2.iniciar()})
-        keyboard.num3().onPressDo({nivel3.iniciar()})
-        keyboard.num4().onPressDo({nivel4.iniciar()})
-    }
+  method levelMenuOn(){
+    self.limpiarTeclado()
+    self.menuOn()
+    levelMenuState = true
+  }
 }
