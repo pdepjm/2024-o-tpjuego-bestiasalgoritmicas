@@ -2,6 +2,10 @@ import levels.*
 import menuYTeclado.*
 
 object juegoStickyBlock {
+  
+  var property nivelActual = nivel1
+  var movimientos = []
+  
   method iniciar(){
 
     //Set game properties
@@ -18,18 +22,33 @@ object juegoStickyBlock {
 
     //nivelActual.iniciar()
   }
+  
+  method reset(){
+    movimientos.forEach({mov => mov.unDo()})
+  }
 
-  var property nivelActual = nivel1
+  method clear(){
+    cuerpo.clear()
+    movimientos.clear()
+    game.allVisuals().forEach({visual => game.removeVisual(visual)})
+  }
 
   method siguienteNivel(){
     nivelActual = nivelActual.siguienteNivel()
     nivelActual.iniciar()
   }
 
-  method clear(){
-    cuerpo.clear()	
-    game.allVisuals().forEach({visual => game.removeVisual(visual)})
+  method addMove(movimiento){
+    movimientos.add(movimiento)
   }
+
+ method unDo(){
+  if(!movimientos.isEmpty()){
+    const move = movimientos.last()
+    movimientos = movimientos.take(movimientos.size() - 1) //? No hay alguna forma más normal de hacerlo?
+    move.unDo()
+  }
+ }
 }
 
 //*==========================| Cuerpo |==========================
@@ -54,9 +73,8 @@ object juegoStickyBlock {
 
       const cuerpoPuedeAvanzar = compis.all({compi => compi.puedeAvanzar(direccion.nuevaPosicion(compi))})
 
-      if(cuerpoPuedeAvanzar) compis.forEach({compi => compi.moveTo(direccion)}) //Mueve a los elementos del cuerpo //? y ejecuta Nuesto "Collider" 
+      if(cuerpoPuedeAvanzar){ compis.forEach({compi => compi.moveTo(direccion)})} //Mueve a los elementos del cuerpo y ejecuta Nuesto "Collider"  
       
-      //game.flushEvents(game.currentTime()) //! Esto soluciona el problema de la colision pero genra mucho lag 😡😡💢
     }
 
     // Victoria
@@ -94,7 +112,8 @@ object juegoStickyBlock {
       self.eliminarHitBoxes()
 
       cuerpo.agregarACuerpo(self)
-      // game.onCollideDo(self, {objeto => objeto.interactuarConPersonaje(self)}) //! Esto no funciona 😡😡💢
+
+      juegoStickyBlock.addMove(self) // Se agrega el movimiento al stack de movimientos
     }
 
     method iniciarHitBoxes(){
@@ -124,6 +143,12 @@ object juegoStickyBlock {
     }
 
     method interactuarConPersonaje(pj){}
+
+    method unDo(){
+      cuerpo.eliminarCompi(self)  //1. Lo elimino del cuerpo !Por algún motivo a veces no se desancla en el primer movimiento, si no en el segundo
+      juegoStickyBlock.unDo()     //2. Hago el movimiento anterior
+      self.iniciarHitBoxes()      //3. Agrego la hitbox
+    }
   }
   
 //--------- HitBox ---------
@@ -151,21 +176,25 @@ object juegoStickyBlock {
     }
   }
 
-  //----------------| Movimiento Colectivo |----------------
+//----------------| Movimiento Colectivo |----------------
   object arriba {
     method nuevaPosicion(objeto) = objeto.position().up(1)
+    method unDo(){cuerpo.moverCuerpo(abajo)}
   }
 
   object abajo {
     method nuevaPosicion(objeto) = objeto.position().down(1)
+    method unDo(){cuerpo.moverCuerpo(arriba)}
   }
 
   object izquierda {
     method nuevaPosicion(objeto) = objeto.position().left(1)
+    method unDo(){cuerpo.moverCuerpo(derecha)}
   }
 
   object derecha {
     method nuevaPosicion(objeto) = objeto.position().right(1)
+    method unDo(){cuerpo.moverCuerpo(izquierda)}
   }
 
 //*===========================| Entorno |===========================
