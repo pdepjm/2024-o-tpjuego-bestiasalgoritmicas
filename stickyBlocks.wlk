@@ -1,16 +1,22 @@
 import levels.*
+import menuYTeclado.*
 
 object juegoStickyBlock {
   method iniciar(){
+
+    //Set game properties
     game.title("StickyBlock")
 	  game.height(10)
 	  game.width(20)
     game.boardGround("Fondo.png")
+
+    //inicializo teclado
+    configTeclado.iniciar()
+
+    //Inicio el menu
     menu.iniciar()
-    keyboard.m().onPressDo({menu.iniciar()})
-    keyboard.r().onPressDo({nivelActual.iniciar()})
-    keyboard.t().onPressDo({nivelEjemplo.iniciar()})
-    cuerpo.iniciar()
+
+    //nivelActual.iniciar()
   }
 
   var property nivelActual = nivel1
@@ -26,78 +32,8 @@ object juegoStickyBlock {
   }
 }
 
-//*==========================| MENU Inicial |==========================
-  object menu{
-    method iniciar(){
-      juegoStickyBlock.clear()
-
-      menuActivo = true
-      levelMenuIsOpen = false
-
-      self.drawMenu()
-
-      keyboard.r().onPressDo({})
-      keyboard.p().onPressDo({if(menuActivo) {juegoStickyBlock.nivelActual().iniciar() menuActivo = false}})
-      keyboard.l().onPressDo({if(menuActivo) {self.toggleLevelMenu()}})
-    }
-  
-    var menuActivo = true  //!AYUDA!! esto es una mierda pero no se como eliminar el onPressDo lpm
-    var levelMenu = null
-    var levelMenuIsOpen = false
-
-    method toggleLevelMenu() = if(levelMenuIsOpen) self.closeLevelMenu() else self.openLevelMenu()
-    
-    method drawMenu(){
-      new OnlyVisual(image = "Logo.png", position = game.at(7,6)).iniciar()
-      levelMenu = new OnlyVisual(image = "CloseMenu.png", position = game.at(6,3))
-      levelMenu.iniciar()
-    }
-
-    method closeLevelMenu(){
-      levelMenu.image("CloseMenu.png")
-      levelMenuIsOpen = false
-      keyboard.num1().onPressDo({})
-      keyboard.num2().onPressDo({})
-      keyboard.num3().onPressDo({})
-      keyboard.num4().onPressDo({})
-    }
-
-    method openLevelMenu(){
-      levelMenu.image("OpenMenu.png")
-      levelMenuIsOpen = true
-      keyboard.num1().onPressDo({if(menuActivo && levelMenuIsOpen) {nivel1.iniciar() juegoStickyBlock.nivelActual(nivel1)}})
-      keyboard.num2().onPressDo({if(menuActivo && levelMenuIsOpen) {nivel2.iniciar() juegoStickyBlock.nivelActual(nivel2)}})
-      keyboard.num3().onPressDo({if(menuActivo && levelMenuIsOpen) {nivel3.iniciar() juegoStickyBlock.nivelActual(nivel3)}})
-      keyboard.num4().onPressDo({if(menuActivo && levelMenuIsOpen) {nivel4.iniciar() juegoStickyBlock.nivelActual(nivel4)}})
-    }
-  }
-
-  //PD: Level menu podría ser un objeto pero...
-
-  class OnlyVisual{
-    method iniciar(){
-      game.addVisual(self)
-    }
-
-    var property image 
-
-    const property position 
-  }
-
 //*==========================| Cuerpo |==========================
   object cuerpo{
-
-    var movimiento = null
-
-    method iniciar(){
-
-      // Movimiento
-      movimiento = null
-      keyboard.up().onPressDo({movimiento = arriba self.moverCuerpo() })
-      keyboard.down().onPressDo({movimiento = abajo self.moverCuerpo() })
-      keyboard.left().onPressDo({movimiento = izquierda self.moverCuerpo() })
-      keyboard.right().onPressDo({movimiento = derecha self.moverCuerpo() })
-    }
 
     method clear(){
       compis.clear()
@@ -114,12 +50,11 @@ object juegoStickyBlock {
       compis.remove(compi)
     }
         
-    method moverCuerpo(){
+    method moverCuerpo(direccion){
 
-      const cuerpoPuedeAvanzar = compis.all({compi => compi.puedeAvanzar(movimiento.nuevaPosicion(compi))})
+      const cuerpoPuedeAvanzar = compis.all({compi => compi.puedeAvanzar(direccion.nuevaPosicion(compi))})
 
-      if(cuerpoPuedeAvanzar) compis.forEach({compi => compi.moveTo(movimiento)  compi.collideWith()}) //Mueve a los elementos del cuerpo //? y ejecuta Nuesto "Collider" 
-      //?PD: El "collider" lo hago como schedule ya que asi se ve visualmente que el pj se sube a la meta, en el otro caso no se ve ya que wollok calcula todo antes de ejecutar y cambia de nivel sin avanzar al personaje
+      if(cuerpoPuedeAvanzar) compis.forEach({compi => compi.moveTo(direccion)}) //Mueve a los elementos del cuerpo //? y ejecuta Nuesto "Collider" 
       
       //game.flushEvents(game.currentTime()) //! Esto soluciona el problema de la colision pero genra mucho lag 😡😡💢
     }
@@ -175,6 +110,7 @@ object juegoStickyBlock {
 
     method moveTo(movimiento){
       position = movimiento.nuevaPosicion(self)
+      self.collideWith() // Valida y ejecuta las colisiones
     }
 
     method collideWith(){
@@ -359,3 +295,5 @@ object juegoStickyBlock {
       if(activa) compi.desaparecer() else self.activar()
     }
   }
+
+  
