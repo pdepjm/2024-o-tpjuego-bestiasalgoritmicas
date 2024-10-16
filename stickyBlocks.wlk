@@ -39,13 +39,13 @@ object juegoStickyBlock {
   }
 
   method addMove(movimiento){
-    movimientos.add(movimiento)
+    movimientos = [movimiento] + movimientos
   }
 
  method unDo(){
   if(!movimientos.isEmpty()){
-    const move = movimientos.last()
-    movimientos = movimientos.take(movimientos.size() - 1) //? No hay alguna forma más normal de hacerlo?
+    const move = movimientos.head()
+    movimientos = movimientos.drop(1)
     move.unDo()
   }
  }
@@ -68,12 +68,13 @@ object juegoStickyBlock {
     method eliminarCompi(compi){
       compis.remove(compi)
     }
+
         
     method moverCuerpo(direccion){
 
       const cuerpoPuedeAvanzar = compis.all({compi => compi.puedeAvanzar(direccion.nuevaPosicion(compi))})
 
-      if(cuerpoPuedeAvanzar){ compis.forEach({compi => compi.moveTo(direccion)})} //Mueve a los elementos del cuerpo y ejecuta Nuesto "Collider"  
+      if(cuerpoPuedeAvanzar) compis.forEach({compi => compi.moveTo(direccion)}) //Mueve a los elementos del cuerpo y ejecuta Nuesto "Collider"  
       
     }
 
@@ -148,6 +149,14 @@ object juegoStickyBlock {
       cuerpo.eliminarCompi(self)  //1. Lo elimino del cuerpo !Por algún motivo a veces no se desancla en el primer movimiento, si no en el segundo
       juegoStickyBlock.unDo()     //2. Hago el movimiento anterior
       self.iniciarHitBoxes()      //3. Agrego la hitbox
+    }
+
+    //! metodo que se eliminara al hacer el pj principal con herencia o algo asi
+    method setAsMainCharacter(){
+
+      self.eliminarHitBoxes()
+
+      cuerpo.agregarACuerpo(self)
     }
   }
   

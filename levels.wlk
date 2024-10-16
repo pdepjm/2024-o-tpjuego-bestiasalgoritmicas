@@ -68,7 +68,7 @@ import menuYTeclado.*
       //Instanciamos un StickyBlock pero lo inicializamos como cuerpo 
       const personajePrincipal = new StickyBlock(position = mainCharacterPosition)
       personajePrincipal.iniciar()
-      personajePrincipal.setAsCuerpo()
+      personajePrincipal.setAsMainCharacter()
 
       //Instanciamos los compis
       stickyBlockPositions.forEach({position => 
