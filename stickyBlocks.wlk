@@ -24,7 +24,7 @@ object juegoStickyBlock {
   }
   
   method reset(){
-    movimientos.forEach({mov => mov.unDo()})
+    movimientos.forEach({_=> self.unDo()}) // Ejecuta unDo() por la cantidad de movimientos ejecutados
   }
 
   method clear(){
@@ -68,8 +68,7 @@ object juegoStickyBlock {
     method eliminarCompi(compi){
       compis.remove(compi)
     }
-
-        
+ 
     method moverCuerpo(direccion){
 
       const cuerpoPuedeAvanzar = compis.all({compi => compi.puedeAvanzar(direccion.nuevaPosicion(compi))})
