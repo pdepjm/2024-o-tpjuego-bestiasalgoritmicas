@@ -69,13 +69,15 @@ object juegoStickyBlock {
       compis.remove(compi)
     }
  
-    method moverCuerpo(direccion, esUnDo){
+    method moverCuerpo(direccion, isUnDo){
 
       const cuerpoPuedeAvanzar = compis.all({compi => compi.puedeAvanzar(direccion.nuevaPosicion(compi))})
 
       if(cuerpoPuedeAvanzar){
-        if (!esUnDo) juegoStickyBlock.addMove(direccion) // Agrega el movimiento al stack de movimientos
-        compis.forEach({compi => compi.moveTo(direccion)}) //Mueve a los elementos del cuerpo y ejecuta Nuesto "Collider"
+        if (!isUnDo) juegoStickyBlock.addMove(direccion) // Agrega el movimiento al stack de movimientos
+        
+        compis.forEach({compi => compi.moveTo(direccion)}) //Mueve a los elementos del cuerpo
+        compis.forEach({compi => compi.collideWith()})  // Ejecuta Nuesto "Collider"
       }
       
     }
@@ -93,7 +95,7 @@ object juegoStickyBlock {
     }
     
     //Imagen
-    method image() = "Rojo.png"
+    var property image = "RojoCerrado.png"
 
     //Posicion
     var property position
@@ -116,6 +118,8 @@ object juegoStickyBlock {
 
       cuerpo.agregarACuerpo(self)
 
+      image = "Rojo.png"
+
       juegoStickyBlock.addMove(self) // Se agrega el movimiento al stack de movimientos
     }
 
@@ -132,7 +136,6 @@ object juegoStickyBlock {
 
     method moveTo(movimiento){
       position = movimiento.nuevaPosicion(self)
-      self.collideWith() // Valida y ejecuta las colisiones
     }
 
     method collideWith(){
@@ -151,6 +154,8 @@ object juegoStickyBlock {
       cuerpo.eliminarCompi(self)  //1. Lo elimino del cuerpo !Por algún motivo a veces no se desancla en el primer movimiento, si no en el segundo
       juegoStickyBlock.unDo()     //2. Hago el movimiento anterior
       self.iniciarHitBoxes()      //3. Agrego la hitbox
+
+      image = "RojoCerrado.png" 
     }
 
     //! metodo que se eliminara al hacer el pj principal con herencia o algo asi
@@ -159,6 +164,8 @@ object juegoStickyBlock {
       self.eliminarHitBoxes()
 
       cuerpo.agregarACuerpo(self)
+
+      image = "Rojo.png"
     }
   }
   
