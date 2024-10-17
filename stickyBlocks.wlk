@@ -69,11 +69,14 @@ object juegoStickyBlock {
       compis.remove(compi)
     }
  
-    method moverCuerpo(direccion){
+    method moverCuerpo(direccion, esUnDo){
 
       const cuerpoPuedeAvanzar = compis.all({compi => compi.puedeAvanzar(direccion.nuevaPosicion(compi))})
 
-      if(cuerpoPuedeAvanzar) compis.forEach({compi => compi.moveTo(direccion)}) //Mueve a los elementos del cuerpo y ejecuta Nuesto "Collider"  
+      if(cuerpoPuedeAvanzar){
+        if (!esUnDo) juegoStickyBlock.addMove(direccion) // Agrega el movimiento al stack de movimientos
+        compis.forEach({compi => compi.moveTo(direccion)}) //Mueve a los elementos del cuerpo y ejecuta Nuesto "Collider"
+      }
       
     }
 
@@ -187,22 +190,22 @@ object juegoStickyBlock {
 //----------------| Movimiento Colectivo |----------------
   object arriba {
     method nuevaPosicion(objeto) = objeto.position().up(1)
-    method unDo(){cuerpo.moverCuerpo(abajo)}
+    method unDo(){cuerpo.moverCuerpo(abajo,true)}
   }
 
   object abajo {
     method nuevaPosicion(objeto) = objeto.position().down(1)
-    method unDo(){cuerpo.moverCuerpo(arriba)}
+    method unDo(){cuerpo.moverCuerpo(arriba,true)}
   }
 
   object izquierda {
     method nuevaPosicion(objeto) = objeto.position().left(1)
-    method unDo(){cuerpo.moverCuerpo(derecha)}
+    method unDo(){cuerpo.moverCuerpo(derecha,true)}
   }
 
   object derecha {
     method nuevaPosicion(objeto) = objeto.position().right(1)
-    method unDo(){cuerpo.moverCuerpo(izquierda)}
+    method unDo(){cuerpo.moverCuerpo(izquierda,true)}
   }
 
 //*===========================| Entorno |===========================
