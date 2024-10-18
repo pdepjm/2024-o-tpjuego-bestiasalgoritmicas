@@ -118,7 +118,7 @@ object juegoStickyBlock {
 
       cuerpo.agregarACuerpo(self)
 
-      image = "Rojo.png"
+      image = "RojoParpadea.gif"
 
       juegoStickyBlock.addMove(self) // Se agrega el movimiento al stack de movimientos
     }
@@ -165,7 +165,7 @@ object juegoStickyBlock {
 
       cuerpo.agregarACuerpo(self)
 
-      image = "Rojo.png"
+      image = "RojoParpadea.gif"
     }
   }
   
