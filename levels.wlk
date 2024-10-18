@@ -9,8 +9,11 @@ import menuYTeclado.*
       juegoStickyBlock.clear()
       self.clearPositions()
 
+      //Dibujo UI
+      new OnlyVisual(image="Menu.png",position = game.at(0,9)).iniciar()
+      new OnlyVisual(image="Undo-Reset.png",position = game.origin()).iniciar()
+
       //Dibujo el nivel
-      new OnlyVisual(image="Menu-Reset.png",position = game.origin()).iniciar()
       self.drawGridMap()
       self.drawCharacters()
       self.drawTopLayer()
@@ -124,7 +127,7 @@ import menuYTeclado.*
     }
   }
 
-//Trampa
+  //Trampa
   object o{
     method decode(x,y,_level){
       const agujero = new Agujero(position = game.at(x, y), activa = true)
@@ -146,6 +149,13 @@ import menuYTeclado.*
       const meta = new Meta(position = game.at(x, y))
       meta.iniciar()
       level.addGoalPosition(x,y)
+    }
+  }
+
+  object u{
+    method decode(x,y,_level){
+      const arrowPopUp = new OnlyVisual(image = "ArrowsPopUp.png",position = game.at(x, y))
+      arrowPopUp.iniciar()
     }
   }
 
@@ -188,7 +198,7 @@ import menuYTeclado.*
       [v,v,v,v,p,_,_,_,_,_,_,_,_,_,p,v,v,v,v,v],
       [v,v,v,v,p,_,_,_,_,_,_,_,_,_,p,v,v,v,v,v],
       [v,v,v,v,p,p,p,p,p,p,p,p,p,p,p,v,v,v,v,v],
-      [v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v]
+      [v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,u,v,v,v,v]
     ], 
     siguienteNivel = nivel2
   )
