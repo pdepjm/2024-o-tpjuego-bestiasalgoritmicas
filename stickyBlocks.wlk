@@ -14,6 +14,13 @@ object juegoStickyBlock {
 	  game.width(20)
     game.boardGround("Fondo.png")
 
+    //Set Background Audio
+    const music = game.sound("InideGame.mp3")
+    music.shouldLoop(true)
+    music.volume(0.3)
+    music.play()
+    
+
     //inicializo teclado
     configTeclado.iniciar()
 

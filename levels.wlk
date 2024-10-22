@@ -154,7 +154,7 @@ import menuYTeclado.*
 
   object u{
     method decode(x,y,_level){
-      const arrowPopUp = new OnlyVisual(image = "ArrowPopUp.gif",position = game.at(x, y))
+      const arrowPopUp = new OnlyVisual(image = "ArrowsPopUp.gif",position = game.at(x, y))
       arrowPopUp.iniciar()
     }
   }
