@@ -3,7 +3,7 @@ import menuYTeclado.*
 
 object juegoStickyBlock {
   
-  var property nivelActual = nivel1
+  var property nivelActual = nivelEjemplo
   var movimientos = []
 
   //Config Audio
@@ -79,25 +79,28 @@ object juegoStickyBlock {
       compis.remove(compi)
     }
  
-    method moverCuerpo(direccion, isUnDo){
+    method moverCuerpo(movimiento){
 
-      const cuerpoPuedeAvanzar = compis.all({compi => compi.puedeAvanzar(direccion.nuevaPosicion(compi))})
+      const cuerpoPuedeAvanzar = compis.all({compi => compi.puedeAvanzar(movimiento.nuevaPosicion(compi))})
 
       if(cuerpoPuedeAvanzar){
-        if (!isUnDo) juegoStickyBlock.addMove(direccion) // Agrega el movimiento al stack de movimientos
+        juegoStickyBlock.addMove(movimiento) // Agrega el movimiento al stack de movimientos
         
-        compis.forEach({compi => compi.moveTo(direccion)}) //Mueve a los elementos del cuerpo
+        self.ejecutarMovimiento(movimiento) //Mueve a los elementos del cuerpo
 
         compis.forEach({compi => compi.collideWith()})  // Ejecuta Nuesto "Collider"
       }
-      
+    }
+
+    method ejecutarMovimiento(movimiento){
+      compis.forEach({compi => compi.moveTo(movimiento)})
     }
 
     // Victoria
     method victoriaValida() = juegoStickyBlock.nivelActual().cuerpoSobreMeta() // Verifica si existen compis sobre cada meta
   }
 
-//*==========================| StickyBlock |==========================
+//*========================| StickyBlock |=======================
   class StickyBlock{
     
     //Imagen
@@ -133,112 +136,113 @@ object juegoStickyBlock {
     method interactuarConPersonaje(pj){}
   }
 
-//--------- Personaje Inicial ---------
+  //--------- Personaje Inicial ---------
+  class PersonajeInicial inherits StickyBlock{
 
-class PersonajeInicial inherits StickyBlock{
-
-  override method iniciar(){
-    
-    super()
-    
-    cuerpo.agregarACuerpo(self)
-
-    image = "RojoParpadea.gif"
-  }
-}
-
-//--------- Sticky Compis ---------
-class StickyCompi inherits StickyBlock{
-
-  //Genera las HitBox alrededor del StickyBlock
-  const hitBoxes = [
-    new HitBox(padre = self, position = position.up(1)), 
-    new HitBox(padre = self, position = position.down(1)),
-    new HitBox(padre = self, position = position.left(1)),
-    new HitBox(padre = self, position = position.right(1))
-  ]
-
-  override method iniciar(){
-    super()
-    self.iniciarHitBoxes()
-  }
-
-  //Setea el compi como elemento del cuerpo del personaje principal
-  method setAsCuerpo(){
-
-    self.eliminarHitBoxes()
-
-    cuerpo.agregarACuerpo(self)
-
-    image = "RojoParpadea.gif"
-
-    juegoStickyBlock.addMove(self) // Se agrega el movimiento al stack de movimientos
-  }
-
-  method iniciarHitBoxes(){
-    hitBoxes.forEach({hitBox => hitBox.iniciar()})
-  } 
-
-  method eliminarHitBoxes(){
-    hitBoxes.forEach({hitBox => hitBox.eliminar()})
-  }
-
-  method unDo(){
-    cuerpo.eliminarCompi(self)  //1. Lo elimino del cuerpo !Por algún motivo a veces no se desancla en el primer movimiento, si no en el segundo
-    juegoStickyBlock.unDo()     //2. Hago el movimiento anterior
-    self.iniciarHitBoxes()      //3. Agrego la hitbox
-
-    image = "RojoCerrado.png" 
-  }
-}
-  
-//--------- HitBox ---------
-  class HitBox{
-    method iniciar(){
-      game.addVisual(self)
-    }
-
-    method eliminar(){
-    game.removeVisual(self)
-    }
-
-    const padre
-
-    //Posicion
-    const property position
-
-    //Colision
-    method esPisable() = true
-
-    method interactuarConPersonaje(pj){ 
+    override method iniciar(){
       
-      //Setea como compi al padre
-      padre.setAsCuerpo()
+      super()
+      
+      cuerpo.agregarACuerpo(self)
+
+      image = "RojoParpadea.gif"
     }
   }
 
-//----------------| Movimiento Colectivo |----------------
+  //--------- Sticky Compis ---------
+  class StickyCompi inherits StickyBlock{
+
+    //Genera las HitBox alrededor del StickyBlock
+    const hitBoxes = [
+      new HitBox(padre = self, position = position.up(1)), 
+      new HitBox(padre = self, position = position.down(1)),
+      new HitBox(padre = self, position = position.left(1)),
+      new HitBox(padre = self, position = position.right(1))
+    ]
+
+    override method iniciar(){
+      super()
+      self.iniciarHitBoxes()
+    }
+
+    //Setea el compi como elemento del cuerpo del personaje principal
+    method setAsCuerpo(){
+
+      self.eliminarHitBoxes()
+
+      cuerpo.agregarACuerpo(self)
+
+      image = "RojoParpadea.gif"
+
+      juegoStickyBlock.addMove(self) // Se agrega el movimiento al stack de movimientos
+    }
+
+    method iniciarHitBoxes(){
+      hitBoxes.forEach({hitBox => hitBox.iniciar()})
+    } 
+
+    method eliminarHitBoxes(){
+      hitBoxes.forEach({hitBox => hitBox.eliminar()})
+    }
+
+    method unDo(){
+      cuerpo.eliminarCompi(self)  //1. Lo elimino del cuerpo
+      juegoStickyBlock.unDo()     //2. Hago el movimiento anterior
+      self.iniciarHitBoxes()      //3. Agrego la hitbox
+
+      image = "RojoCerrado.png" 
+    }
+  }
+
+  //----- HitBox 
+    class HitBox{
+      method iniciar(){
+        game.addVisual(self)
+      }
+
+      method eliminar(){
+      game.removeVisual(self)
+      }
+
+      const padre
+
+      //Posicion
+      const property position
+
+      //Colision
+      method esPisable() = true
+
+      method interactuarConPersonaje(pj){ 
+        
+        //Setea como compi al padre
+        padre.setAsCuerpo()
+      }
+    }
+
+  //----------------| Movimiento Colectivo |----------------
   object arriba {
     method nuevaPosicion(objeto) = objeto.position().up(1)
-    method unDo(){cuerpo.moverCuerpo(abajo,true)}
+    method unDo(){cuerpo.ejecutarMovimiento(abajo)}
   }
 
   object abajo {
     method nuevaPosicion(objeto) = objeto.position().down(1)
-    method unDo(){cuerpo.moverCuerpo(arriba,true)}
+    method unDo(){cuerpo.ejecutarMovimiento(arriba)}
   }
 
   object izquierda {
     method nuevaPosicion(objeto) = objeto.position().left(1)
-    method unDo(){cuerpo.moverCuerpo(derecha,true)}
+    method unDo(){cuerpo.ejecutarMovimiento(derecha)}
   }
 
   object derecha {
     method nuevaPosicion(objeto) = objeto.position().right(1)
-    method unDo(){cuerpo.moverCuerpo(izquierda,true)}
+    method unDo(){cuerpo.ejecutarMovimiento(izquierda)}
   }
 
-//*===========================| Entorno |===========================
+  //PD: Los unDo directamente ejeceutan el movimiento contrario (sin pasar por la validacion ni del collider de MoverCuerpo)
+
+//*==========================| Entorno |=========================
   class Meta{
     method iniciar(){
       game.addVisual(self)
@@ -277,9 +281,7 @@ class StickyCompi inherits StickyBlock{
 
     //Imagen
     const images = ["Ladrillo1.png","Ladrillo2.png","Ladrillo3.png","Ladrillo4.png"]
-    var image = ""
-
-    method image() = image
+    var property image = ""
 
     method choseImage(){
       image = images.randomized().head()
@@ -303,9 +305,7 @@ class StickyCompi inherits StickyBlock{
 
     //Imagen
     const images = ["Piso1.png","Piso1.png","Piso1.png","Piso1.png","Piso1.png","Piso1.png","Piso1.png","Piso1.png", "Piso2.png", "Piso3.png"]
-    var image = ""
-
-    method image() = image
+    var property image = ""
 
     method choseImage(){
       image = images.randomized().head()
@@ -346,27 +346,36 @@ class StickyCompi inherits StickyBlock{
 
     var activa // activa = abierta
 
+    //Posicion
+    const property position
+
     //Imagen
     const images = ["Trampa2.png","Trampa3.png","Trampa4.png","Trampa5.png"]
-    var image = ""
-
-    method image() = image
+    var property image = ""
 
     method choseImage(){
       image = if(activa) "Trampa1.png" else images.randomized().head()
     
     }
 
-    //Posicion
-    const property position
+    //Colision
+    method esPisable() = true
 
     method activar(){
       image = "Trampa1.png"
       activa = true
+
+      //Se agrega a movimientos para poder deshacer
+      juegoStickyBlock.addMove(self)
     }
 
-    //Colision
-    method esPisable() = true
+    method unDo(){
+      activa = false
+      self.choseImage()
+
+      //Se ejecuta tambien el movimiento anterior
+      juegoStickyBlock.unDo()
+    }
 
     method interactuarConPersonaje(compi){
       if(activa) compi.desaparecer() else self.activar()

@@ -68,10 +68,10 @@ import levels.*
       //* GAME ON:
 
         //Movimientos:
-        keyboard.up().onPressDo({if(gameState) {cuerpo.moverCuerpo(arriba,false)}})
-        keyboard.down().onPressDo({if(gameState) {cuerpo.moverCuerpo(abajo,false)}})
-        keyboard.left().onPressDo({if(gameState) {cuerpo.moverCuerpo(izquierda,false)}})
-        keyboard.right().onPressDo({if(gameState) {cuerpo.moverCuerpo(derecha,false)}})
+        keyboard.up().onPressDo({if(gameState) {cuerpo.moverCuerpo(arriba)}})
+        keyboard.down().onPressDo({if(gameState) {cuerpo.moverCuerpo(abajo)}})
+        keyboard.left().onPressDo({if(gameState) {cuerpo.moverCuerpo(izquierda)}})
+        keyboard.right().onPressDo({if(gameState) {cuerpo.moverCuerpo(derecha)}})
 
         //unDo:
         keyboard.control().onPressDo({if(gameState) juegoStickyBlock.unDo()})
