@@ -93,8 +93,7 @@ object juegoStickyBlock {
       method victoriaValida() = juegoStickyBlock.nivelActual().cuerpoSobreMeta() // Verifica si existen compis sobre cada meta
   }
 
-//*==========================| Personajes |==========================
-//--------- StickyCompis ---------
+//*==========================| StickyBlock |==========================
   class StickyBlock{
     method iniciar(){
       game.addVisual(self)
@@ -109,34 +108,6 @@ object juegoStickyBlock {
 
     //Colision
     method esPisable() = true
-
-    //Genera las HitBox alrededor del StickyBlock
-    const hitBoxes = [
-      new HitBox(padre = self, position = position.up(1)), 
-      new HitBox(padre = self, position = position.down(1)),
-      new HitBox(padre = self, position = position.left(1)),
-      new HitBox(padre = self, position = position.right(1))
-    ]
-
-    //Setea el compi como elemento del cuerpo del personaje principal
-    method setAsCuerpo(){
-
-      self.eliminarHitBoxes()
-
-      cuerpo.agregarACuerpo(self)
-
-      image = "RojoParpadea.gif"
-
-      juegoStickyBlock.addMove(self) // Se agrega el movimiento al stack de movimientos
-    }
-
-    method iniciarHitBoxes(){
-      hitBoxes.forEach({hitBox => hitBox.iniciar()})
-    } 
-
-    method eliminarHitBoxes(){
-      hitBoxes.forEach({hitBox => hitBox.eliminar()})
-    }
 
     //Puede avanzar
     method puedeAvanzar(posicion) = game.getObjectsIn(posicion).all({objeto => objeto.esPisable()})
@@ -156,25 +127,61 @@ object juegoStickyBlock {
     }
 
     method interactuarConPersonaje(pj){}
-
-    method unDo(){
-      cuerpo.eliminarCompi(self)  //1. Lo elimino del cuerpo !Por algún motivo a veces no se desancla en el primer movimiento, si no en el segundo
-      juegoStickyBlock.unDo()     //2. Hago el movimiento anterior
-      self.iniciarHitBoxes()      //3. Agrego la hitbox
-
-      image = "RojoCerrado.png" 
-    }
-
-    //! metodo que se eliminara al hacer el pj principal con herencia o algo asi
-    method setAsMainCharacter(){
-
-      self.eliminarHitBoxes()
-
-      cuerpo.agregarACuerpo(self)
-
-      image = "RojoParpadea.gif"
-    }
   }
+
+//--------- Personaje Inicial ---------
+
+class PersonajeInicial inherits StickyBlock{
+
+  override method iniciar(){
+    
+    game.addVisual(self)
+    
+    cuerpo.agregarACuerpo(self)
+
+    image = "RojoParpadea.gif"
+  }
+}
+
+//--------- Sticky Compis ---------
+class StickyCompi inherits StickyBlock{
+
+  //Setea el compi como elemento del cuerpo del personaje principal
+  method setAsCuerpo(){
+
+    self.eliminarHitBoxes()
+
+    cuerpo.agregarACuerpo(self)
+
+    image = "RojoParpadea.gif"
+
+    juegoStickyBlock.addMove(self) // Se agrega el movimiento al stack de movimientos
+  }
+
+  //Genera las HitBox alrededor del StickyBlock
+  const hitBoxes = [
+    new HitBox(padre = self, position = position.up(1)), 
+    new HitBox(padre = self, position = position.down(1)),
+    new HitBox(padre = self, position = position.left(1)),
+    new HitBox(padre = self, position = position.right(1))
+  ]
+
+  method iniciarHitBoxes(){
+    hitBoxes.forEach({hitBox => hitBox.iniciar()})
+  } 
+
+  method eliminarHitBoxes(){
+    hitBoxes.forEach({hitBox => hitBox.eliminar()})
+  }
+
+  method unDo(){
+    cuerpo.eliminarCompi(self)  //1. Lo elimino del cuerpo !Por algún motivo a veces no se desancla en el primer movimiento, si no en el segundo
+    juegoStickyBlock.unDo()     //2. Hago el movimiento anterior
+    self.iniciarHitBoxes()      //3. Agrego la hitbox
+
+    image = "RojoCerrado.png" 
+  }
+}
   
 //--------- HitBox ---------
   class HitBox{
