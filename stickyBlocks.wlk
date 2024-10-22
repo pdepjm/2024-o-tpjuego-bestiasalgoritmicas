@@ -131,6 +131,18 @@ object juegoStickyBlock {
     method desaparecer(){
       game.removeVisual(self)
       cuerpo.eliminarCompi(self)
+
+      //Se agrega a movimientos para poder deshacer
+      juegoStickyBlock.addMove(self)
+    }
+
+    //Aparecer 
+    method aparecer(){
+      game.addVisual(self)
+      cuerpo.agregarACuerpo(self)
+
+      //Deshace el movimiento anterior
+      juegoStickyBlock.unDo()
     }
 
     method interactuarConPersonaje(pj){}
@@ -146,6 +158,10 @@ object juegoStickyBlock {
       cuerpo.agregarACuerpo(self)
 
       image = "RojoParpadea.gif"
+    }
+
+    method unDo(){
+      self.aparecer()
     }
   }
 
@@ -174,7 +190,7 @@ object juegoStickyBlock {
 
       image = "RojoParpadea.gif"
 
-      juegoStickyBlock.addMove(self) // Se agrega el movimiento al stack de movimientos
+      juegoStickyBlock.addMove(self) //Se agrega a movimientos para poder deshacer
     }
 
     method iniciarHitBoxes(){
@@ -185,12 +201,18 @@ object juegoStickyBlock {
       hitBoxes.forEach({hitBox => hitBox.eliminar()})
     }
 
-    method unDo(){
+    method desanclar(){
+
       cuerpo.eliminarCompi(self)  //1. Lo elimino del cuerpo
       juegoStickyBlock.unDo()     //2. Hago el movimiento anterior
       self.iniciarHitBoxes()      //3. Agrego la hitbox
 
       image = "RojoCerrado.png" 
+    }
+
+    method unDo(){
+      //Valida si se esta esta haciendo el unDo de la caida en una Trampa/Agujero o de un seteo como cuerpo
+      if(game.hasVisual(self)){self.desanclar()}else{self.aparecer()}
     }
   }
 
@@ -340,11 +362,12 @@ object juegoStickyBlock {
 
   class Agujero{
     method iniciar(){
+
       self.choseImage()
       game.addVisual(self)
     }
 
-    var activa // activa = abierta
+    var estadoActual // true = abierta
 
     //Posicion
     const property position
@@ -354,8 +377,7 @@ object juegoStickyBlock {
     var property image = ""
 
     method choseImage(){
-      image = if(activa) "Trampa1.png" else images.randomized().head()
-    
+      image = if(estadoActual) "Trampa1.png" else images.randomized().head()
     }
 
     //Colision
@@ -363,14 +385,12 @@ object juegoStickyBlock {
 
     method activar(){
       image = "Trampa1.png"
-      activa = true
-
-      //Se agrega a movimientos para poder deshacer
-      juegoStickyBlock.addMove(self)
+      estadoActual = true
     }
 
+    //Este unDo es para desactivar la trampa --> En el caso de deshacer la eliminacion de un personaje se encarga el StickyBlock
     method unDo(){
-      activa = false
+      estadoActual = false
       self.choseImage()
 
       //Se ejecuta tambien el movimiento anterior
@@ -378,7 +398,14 @@ object juegoStickyBlock {
     }
 
     method interactuarConPersonaje(compi){
-      if(activa) compi.desaparecer() else self.activar()
+      
+      if(estadoActual){
+        compi.desaparecer()
+      }else{
+        self.activar()
+        //Se agrega a movimientos para poder deshacer
+        juegoStickyBlock.addMove(self)
+      }
     }
   }
 

@@ -129,7 +129,7 @@ import menuYTeclado.*
   //Trampa
   object o{
     method decode(x,y,_level){
-      const agujero = new Agujero(position = game.at(x, y), activa = true)
+      const agujero = new Agujero(position = game.at(x, y), estadoActual = true)
       agujero.iniciar()
     }
   }
@@ -137,7 +137,7 @@ import menuYTeclado.*
   //Trampa
   object x{
     method decode(x,y,_level){
-      const agujero = new Agujero(position = game.at(x, y), activa = false)
+      const agujero = new Agujero(position = game.at(x, y), estadoActual = false)
       agujero.iniciar()
     }
   }
