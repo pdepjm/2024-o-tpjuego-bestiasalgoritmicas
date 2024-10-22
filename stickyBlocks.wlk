@@ -5,6 +5,9 @@ object juegoStickyBlock {
   
   var property nivelActual = nivel1
   var movimientos = []
+
+  //Config Audio
+  const music = game.sound("InideGame.mp3")
   
   method iniciar(){
 
@@ -15,7 +18,6 @@ object juegoStickyBlock {
     game.boardGround("Fondo.png")
 
     //Set Background Audio
-    const music = game.sound("InideGame.mp3")
     music.shouldLoop(true)
     music.volume(0.3)
     music.play()
@@ -61,12 +63,13 @@ object juegoStickyBlock {
 //*==========================| Cuerpo |==========================
   object cuerpo{
 
+    // Cuerpo
+    const property compis = []
+
+
     method clear(){
       compis.clear()
     }
-
-      // Cuerpo
-    const property compis = []
 
     method agregarACuerpo(compi){
       compis.add(compi)
@@ -84,27 +87,28 @@ object juegoStickyBlock {
         if (!isUnDo) juegoStickyBlock.addMove(direccion) // Agrega el movimiento al stack de movimientos
         
         compis.forEach({compi => compi.moveTo(direccion)}) //Mueve a los elementos del cuerpo
+
         compis.forEach({compi => compi.collideWith()})  // Ejecuta Nuesto "Collider"
       }
       
     }
 
     // Victoria
-      method victoriaValida() = juegoStickyBlock.nivelActual().cuerpoSobreMeta() // Verifica si existen compis sobre cada meta
+    method victoriaValida() = juegoStickyBlock.nivelActual().cuerpoSobreMeta() // Verifica si existen compis sobre cada meta
   }
 
 //*==========================| StickyBlock |==========================
   class StickyBlock{
-    method iniciar(){
-      game.addVisual(self)
-      self.iniciarHitBoxes()
-    }
     
     //Imagen
     var property image = "RojoCerrado.png"
 
     //Posicion
     var property position
+
+    method iniciar(){
+      game.addVisual(self)
+    }
 
     //Colision
     method esPisable() = true
@@ -135,7 +139,7 @@ class PersonajeInicial inherits StickyBlock{
 
   override method iniciar(){
     
-    game.addVisual(self)
+    super()
     
     cuerpo.agregarACuerpo(self)
 
@@ -145,6 +149,19 @@ class PersonajeInicial inherits StickyBlock{
 
 //--------- Sticky Compis ---------
 class StickyCompi inherits StickyBlock{
+
+  //Genera las HitBox alrededor del StickyBlock
+  const hitBoxes = [
+    new HitBox(padre = self, position = position.up(1)), 
+    new HitBox(padre = self, position = position.down(1)),
+    new HitBox(padre = self, position = position.left(1)),
+    new HitBox(padre = self, position = position.right(1))
+  ]
+
+  override method iniciar(){
+    super()
+    self.iniciarHitBoxes()
+  }
 
   //Setea el compi como elemento del cuerpo del personaje principal
   method setAsCuerpo(){
@@ -157,14 +174,6 @@ class StickyCompi inherits StickyBlock{
 
     juegoStickyBlock.addMove(self) // Se agrega el movimiento al stack de movimientos
   }
-
-  //Genera las HitBox alrededor del StickyBlock
-  const hitBoxes = [
-    new HitBox(padre = self, position = position.up(1)), 
-    new HitBox(padre = self, position = position.down(1)),
-    new HitBox(padre = self, position = position.left(1)),
-    new HitBox(padre = self, position = position.right(1))
-  ]
 
   method iniciarHitBoxes(){
     hitBoxes.forEach({hitBox => hitBox.iniciar()})
@@ -248,7 +257,14 @@ class StickyCompi inherits StickyBlock{
 
       //Verifica si ha ganado el nivel
       const ganoNivel = cuerpo.victoriaValida()
-      if (ganoNivel) {juegoStickyBlock.siguienteNivel()}
+      if (ganoNivel){
+        juegoStickyBlock.siguienteNivel()
+
+        //Sonido de Victoria
+        const winSound = game.sound("Victoria.mp3")
+        winSound.volume(0.1)
+        winSound.play()
+        }
       
     }
   }
