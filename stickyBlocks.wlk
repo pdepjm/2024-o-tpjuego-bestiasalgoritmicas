@@ -81,7 +81,7 @@ object juegoStickyBlock {
  
     method moverCuerpo(movimiento){
 
-      const cuerpoPuedeAvanzar = compis.all({compi => compi.puedeAvanzar(movimiento.nuevaPosicion(compi))})
+      const cuerpoPuedeAvanzar = compis.all({compi => compi.puedeAvanzar(movimiento.nuevaPosicion(compi))}) && !compis.isEmpty()
 
       if(cuerpoPuedeAvanzar){
         juegoStickyBlock.addMove(movimiento) // Agrega el movimiento al stack de movimientos
