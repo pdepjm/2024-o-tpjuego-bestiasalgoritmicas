@@ -188,6 +188,8 @@ object juegoStickyBlock {
 
       cuerpo.agregarACuerpo(self)
 
+      self.collideWith()
+
       image = "RojoParpadea.gif"
 
       juegoStickyBlock.addMove(self) //Se agrega a movimientos para poder deshacer

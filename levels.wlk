@@ -236,7 +236,23 @@ import menuYTeclado.*
     siguienteNivel = nivel4
   )
 
-  const nivel4 = new Nivel(
+const nivel4 = new Nivel(
+   initialGridMap = [
+      [v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v],
+      [v,v,v,p,p,p,p,p,p,p,p,p,p,p,p,p,p,v,v,v],
+      [v,p,p,p,z,_,_,_,_,_,_,_,_,_,_,_,p,p,p,v],
+      [v,p,_,z,_,_,_,_,_,_,z,_,_,_,_,_,_,_,p,v],
+      [v,p,_,_,g,_,_,_,_,p,_,_,_,_,_,_,_,_,p,v],
+      [v,l,_,_,g,g,m,_,_,p,p,p,_,_,z,_,_,_,l,v],
+      [v,p,_,_,g,g,g,_,_,_,p,p,_,_,_,_,_,_,p,v],
+      [v,p,_,_,_,_,_,_,_,_,z,p,_,_,_,_,_,_,p,v],
+      [v,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,v],
+      [v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v]
+  ],
+    siguienteNivel = nivel5
+  )
+
+  const nivel5 = new Nivel(
    initialGridMap = [
       [v,v,v,v,v,v,v,p,p,p,l,p,p,p,v,v,v,v,v,v],
       [v,v,v,v,p,p,p,p,_,z,_,_,_,p,p,p,p,v,v,v],
@@ -249,25 +265,87 @@ import menuYTeclado.*
       [v,v,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,v],
       [v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v]
   ],
-    siguienteNivel = null
+    siguienteNivel = nivel6
+  )
+
+  const nivel6 = new Nivel(
+   initialGridMap = [
+      [v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v],
+      [v,v,v,v,p,p,p,p,p,p,p,p,p,p,p,p,p,v,v,v],
+      [v,v,v,p,p,_,_,_,_,_,_,_,_,_,_,_,p,p,v,v],
+      [v,v,v,p,_,_,_,_,_,_,_,_,_,_,_,_,_,p,v,v],
+      [v,v,v,p,_,m,_,_,z,_,o,_,z,_,_,_,_,p,v,v],
+      [v,v,v,p,_,_,_,_,_,_,_,_,_,_,_,_,_,p,v,v],
+      [v,v,v,p,_,_,_,_,_,g,p,g,_,_,_,_,_,p,v,v],
+      [v,v,v,p,p,_,_,_,_,_,p,_,_,_,_,_,p,p,v,v],
+      [v,v,v,v,p,p,p,p,p,p,p,p,p,p,p,p,p,v,v,v],
+      [v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v]
+  ],
+    siguienteNivel = nivel7
+  )
+
+   const nivel7 = new Nivel(
+   initialGridMap = [
+      [v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v],
+      [v,v,v,p,p,p,p,p,p,p,p,p,p,p,p,p,p,v,v,v],
+      [v,v,v,p,_,_,_,_,_,p,p,_,_,_,_,_,p,v,v,v],
+      [v,v,v,p,_,z,_,_,_,x,x,_,_,_,z,_,p,v,v,v],
+      [v,v,v,p,_,_,_,x,_,g,g,_,x,_,_,_,p,v,v,v],
+      [v,v,v,p,_,_,_,x,_,g,g,_,x,_,_,_,p,v,v,v],
+      [v,v,v,p,_,m,_,_,_,x,x,_,_,_,z,_,p,v,v,v],
+      [v,v,v,p,_,_,_,_,_,p,p,_,_,_,_,_,p,v,v,v],
+      [v,v,v,p,p,p,p,p,p,p,p,p,p,p,p,p,p,v,v,v],
+      [v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v]
+  ],
+    siguienteNivel = nivel8
+  )
+
+ const nivel8 = new Nivel(
+   initialGridMap = [
+      [v,v,v,v,p,p,p,p,p,p,p,p,p,p,p,p,v,v,v,v],
+      [v,v,v,p,p,_,_,_,_,z,_,_,_,_,_,p,p,v,v,v],
+      [v,v,v,p,_,_,_,_,_,_,_,_,_,_,_,_,p,v,v,v],
+      [v,v,v,p,_,_,_,_,x,_,x,_,_,_,_,_,p,v,v,v],
+      [v,v,v,p,_,_,z,_,_,x,_,_,z,_,_,_,p,v,v,v],
+      [v,v,v,p,_,_,_,_,x,_,x,_,_,_,_,_,p,v,v,v],
+      [v,v,v,p,_,_,_,_,_,m,_,_,_,g,_,_,p,v,v,v],
+      [v,v,v,p,_,_,_,_,_,_,_,_,_,g,p,g,p,v,v,v],
+      [v,v,v,p,p,_,_,_,_,z,_,_,_,_,p,g,p,v,v,v],
+      [v,v,v,v,p,p,p,p,p,p,p,p,p,p,p,p,p,v,v,v]
+  ],
+    siguienteNivel = nivel9
   )
 
 
-
-  const nivelEjemplo = new Nivel(
+  const nivel9 = new Nivel(
+    initialGridMap = [
+      [p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p],
+      [p,_,_,l,g,g,p,p,g,p,g,p,p,g,g,l,_,_,_,p],
+      [p,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,p],
+      [p,_,_,_,_,_,o,o,_,_,_,_,_,o,_,_,_,_,_,p],
+      [p,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,p],
+      [p,_,_,_,_,_,_,_,o,_,_,_,_,_,_,_,_,_,_,p],
+      [p,_,o,_,_,_,_,_,_,_,_,_,_,_,_,o,_,_,_,p],
+      [p,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,p],
+      [p,_,_,z,z,z,z,z,_,m,_,z,z,z,z,z,_,_,_,p],
+      [p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p]
+    ], 
+    siguienteNivel = congratulationsLevel
+  )
+  const congratulationsLevel = new Nivel(
     initialGridMap = [
       [v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v],
-      [v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v],
-      [v,v,v,v,p,p,p,p,p,p,p,p,p,p,p,v,v,v,v,v],
-      [v,v,v,v,p,_,_,_,_,p,_,z,_,_,p,v,v,v,v,v],
-      [v,v,v,v,p,_,m,_,_,p,_,_,_,_,p,v,v,v,v,v],
-      [v,v,v,v,l,_,x,_,_,_,_,o,g,g,l,v,v,v,v,v],
-      [v,v,v,v,p,_,_,_,z,_,_,_,g,_,p,v,v,v,v,v],
-      [v,v,v,v,p,_,_,_,_,_,_,_,_,_,p,v,v,v,v,v],
-      [v,v,v,v,p,p,p,p,p,p,p,p,p,p,p,v,v,v,v,v],
+      [v,v,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,v],
+      [v,v,p,_,_,z,z,z,z,z,_,z,z,z,z,z,_,_,p,v],
+      [v,v,p,_,_,z,_,_,_,_,_,z,_,_,_,_,_,_,p,v],
+      [v,v,l,_,_,z,_,z,z,z,_,z,_,z,z,z,_,_,l,v],
+      [v,v,l,_,_,z,_,_,_,z,_,z,_,_,_,z,_,_,l,v],
+      [v,v,p,_,_,z,z,z,z,z,p,z,z,z,z,z,_,_,p,v],
+      [v,v,p,_,_,_,_,_,_,p,m,p,_,_,_,_,_,_,p,v],
+      [v,v,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,v],
       [v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v]
     ], 
-    siguienteNivel = nivel2
+    siguienteNivel = null
   )
 
 

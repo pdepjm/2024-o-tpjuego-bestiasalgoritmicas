@@ -89,6 +89,11 @@ import levels.*
         keyboard.num2().onPressDo({if(levelMenuState) nivel2.iniciar()})
         keyboard.num3().onPressDo({if(levelMenuState) nivel3.iniciar()})
         keyboard.num4().onPressDo({if(levelMenuState) nivel4.iniciar()})
+        keyboard.num5().onPressDo({if(levelMenuState) nivel5.iniciar()})
+        keyboard.num6().onPressDo({if(levelMenuState) nivel6.iniciar()})
+        keyboard.num7().onPressDo({if(levelMenuState) nivel7.iniciar()})
+        keyboard.num8().onPressDo({if(levelMenuState) nivel8.iniciar()})
+        keyboard.num9().onPressDo({if(levelMenuState) nivel9.iniciar()})
       
     }
 
