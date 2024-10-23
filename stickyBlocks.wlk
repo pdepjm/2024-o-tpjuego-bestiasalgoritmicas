@@ -3,7 +3,7 @@ import menuYTeclado.*
 
 object juegoStickyBlock {
   
-  var property nivelActual = nivelEjemplo
+  var property nivelActual = nivel1
   var movimientos = []
 
   //Config Audio
