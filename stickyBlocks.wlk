@@ -51,13 +51,13 @@ object juegoStickyBlock {
     movimientos = [movimiento] + movimientos
   }
 
- method unDo(){
-  if(!movimientos.isEmpty()){
-    const move = movimientos.head()
-    movimientos = movimientos.drop(1)
-    move.unDo()
+  method unDo(){
+    if(!movimientos.isEmpty()){
+      const move = movimientos.head()
+      movimientos = movimientos.drop(1)
+      move.unDo()
+    }
   }
- }
 }
 
 //*==========================| Cuerpo |==========================
@@ -65,7 +65,6 @@ object juegoStickyBlock {
 
     // Cuerpo
     const property compis = []
-
 
     method clear(){
       compis.clear()
@@ -219,27 +218,28 @@ object juegoStickyBlock {
   }
 
   //----- HitBox 
-    class HitBox{
-      method iniciar(){
-        game.addVisual(self)
-      }
+  class HitBox{
+      
+    const padre
 
-      method eliminar(){
+    //Posicion
+    const property position
+
+    method iniciar(){
+      game.addVisual(self)
+    }
+
+    method eliminar(){
       game.removeVisual(self)
-      }
+    }
 
-      const padre
+    //Colision
+    method esPisable() = true
 
-      //Posicion
-      const property position
-
-      //Colision
-      method esPisable() = true
-
-      method interactuarConPersonaje(pj){ 
+    method interactuarConPersonaje(pj){ 
         
-        //Setea como compi al padre
-        padre.setAsCuerpo()
+      //Setea como compi al padre
+      padre.setAsCuerpo()
       }
     }
 
@@ -268,15 +268,16 @@ object juegoStickyBlock {
 
 //*==========================| Entorno |=========================
   class Meta{
-    method iniciar(){
-      game.addVisual(self)
-    }
+
+    //Posicion
+    const property position
 
     //Imagen
     method image() = "Salida.png"
 
-    //Posicion
-    const property position
+    method iniciar(){
+      game.addVisual(self)
+    }
 
     //Colision
     method esPisable() = true
@@ -303,21 +304,22 @@ object juegoStickyBlock {
   }
 
   class Pared{
+   
+    //Imagen
+    const images = ["Ladrillo1.png","Ladrillo2.png","Ladrillo3.png","Ladrillo4.png"]
+    var property image = ""
+
+    //Posicion
+    const property position
+
     method iniciar(){
       self.choseImage()
       game.addVisual(self)
     }
 
-    //Imagen
-    const images = ["Ladrillo1.png","Ladrillo2.png","Ladrillo3.png","Ladrillo4.png"]
-    var property image = ""
-
     method choseImage(){
       image = images.randomized().head()
     }
-
-    //Posicion
-    const property position
 
     //Colision
     method esPisable() = false
@@ -327,21 +329,22 @@ object juegoStickyBlock {
   }
 
   class Suelo{
+    
+    //Imagen
+    const images = ["Piso1.png","Piso1.png","Piso1.png","Piso1.png","Piso1.png","Piso1.png","Piso1.png","Piso1.png", "Piso2.png", "Piso3.png"]
+    var property image = ""
+
+    //Posicion
+    const property position
+
     method iniciar(){
       self.choseImage()
       game.addVisual(self)
     }
 
-    //Imagen
-    const images = ["Piso1.png","Piso1.png","Piso1.png","Piso1.png","Piso1.png","Piso1.png","Piso1.png","Piso1.png", "Piso2.png", "Piso3.png"]
-    var property image = ""
-
     method choseImage(){
       image = images.randomized().head()
     }
-
-    //Posicion
-    const property position
 
     //Colision
     method esPisable() = true
@@ -351,15 +354,17 @@ object juegoStickyBlock {
   }
 
   class Lampara{
-    method iniciar(){
-      game.addVisual(self)
-    } 
+    
+    //Posicion
+    const property position
 
     //Imagen
     method image() = "Lampara.png"
 
-    //Posicion
-    const property position
+
+    method iniciar(){
+      game.addVisual(self)
+    } 
 
     //Colision
     method esPisable() = true
@@ -368,12 +373,7 @@ object juegoStickyBlock {
   }
 
   class Agujero{
-    method iniciar(){
-
-      self.choseImage()
-      game.addVisual(self)
-    }
-
+    
     var estadoActual // true = abierta
 
     //Posicion
@@ -382,6 +382,12 @@ object juegoStickyBlock {
     //Imagen
     const images = ["Trampa2.png","Trampa3.png","Trampa4.png","Trampa5.png"]
     var property image = ""
+
+    method iniciar(){
+
+      self.choseImage()
+      game.addVisual(self)
+    }
 
     method choseImage(){
       image = if(estadoActual) "Trampa1.png" else images.randomized().head()
@@ -408,7 +414,7 @@ object juegoStickyBlock {
       
       if(estadoActual){
         compi.desaparecer()
-      }else{
+      } else {
         self.activar()
         //Se agrega a movimientos para poder deshacer
         juegoStickyBlock.addMove(self)

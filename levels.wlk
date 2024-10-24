@@ -5,6 +5,23 @@ import menuYTeclado.*
 //---------(Clase)--------
   class Nivel {
 
+    const initialGridMap
+
+    const property siguienteNivel
+
+    //Goal
+    const goalPositions = []
+    var property firstGoal = true
+
+    //Personaje Principal
+    var property mainCharacterPosition = null
+
+    //StickyBlocks
+    const stickyBlockPositions = []
+
+    //Top Layer objects
+    const lampPosition = []
+
     method iniciar(){
       juegoStickyBlock.clear()
 
@@ -33,9 +50,6 @@ import menuYTeclado.*
       lampPosition.clear()
     }
 
-    const initialGridMap
-
-    const property siguienteNivel
     
     method drawGridMap(){
       var y = 9
@@ -49,22 +63,12 @@ import menuYTeclado.*
       })
     }
  
-    //Goal
-    const goalPositions = []
-    var property firstGoal = true
-
     method addGoalPosition(x,y){
       goalPositions.add(game.at(x, y))
     }
 
     method cuerpoSobreMeta() = goalPositions.all({goalPos => cuerpo.compis().any({compi => compi.position() == goalPos})})
 
-    //Personaje Principal
-    var property mainCharacterPosition = null
-
-    //StickyBlocks
-    const stickyBlockPositions = []
-    
     method addStickyBlockPosition(x,y){
       stickyBlockPositions.add(game.at(x, y))
     }
@@ -81,9 +85,6 @@ import menuYTeclado.*
         stickyBlock.iniciar()
       })
     }
-
-    //Top Layer objects
-    const lampPosition = []
 
     method addLampPosition(x,y){
       lampPosition.add(game.at(x-1, y-1))
@@ -187,7 +188,6 @@ import menuYTeclado.*
 
   //Compis
   object z{
-
     method decode(x,y,level){
       //Guardo la posicion de los stickyBlocks
       level.addStickyBlockPosition(x,y)
