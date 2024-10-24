@@ -7,6 +7,7 @@ import menuYTeclado.*
 
     method iniciar(){
       juegoStickyBlock.clear()
+
       self.clearPositions()
 
       //Dibujo UI
@@ -26,6 +27,7 @@ import menuYTeclado.*
     }
 
     method clearPositions(){
+      firstGoal = true
       goalPositions.clear()
       stickyBlockPositions.clear()
       lampPosition.clear()
@@ -49,6 +51,7 @@ import menuYTeclado.*
  
     //Goal
     const goalPositions = []
+    var property firstGoal = true
 
     method addGoalPosition(x,y){
       goalPositions.add(game.at(x, y))
@@ -145,8 +148,19 @@ import menuYTeclado.*
   //Meta
   object g{
     method decode(x,y,level){
-      const meta = new Meta(position = game.at(x, y))
-      meta.iniciar()
+
+      if(level.firstGoal()){
+        //Solo la primer meta generada por el nivel sera la encargada de evaluar si el nivel fue completado
+        level.firstGoal(false)
+        const metaValidadora = new MetaValidadora(position = game.at(x, y))
+        metaValidadora.iniciar()
+
+        }else{
+
+        const meta = new Meta(position = game.at(x, y))
+        meta.iniciar()
+      }
+
       level.addGoalPosition(x,y)
     }
   }
@@ -236,7 +250,7 @@ import menuYTeclado.*
     siguienteNivel = nivel4
   )
 
-const nivel4 = new Nivel(
+  const nivel4 = new Nivel(
    initialGridMap = [
       [v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v],
       [v,v,v,p,p,p,p,p,p,p,p,p,p,p,p,p,p,v,v,v],
@@ -248,7 +262,7 @@ const nivel4 = new Nivel(
       [v,p,_,_,_,_,_,_,_,_,z,p,_,_,_,_,_,_,p,v],
       [v,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,v],
       [v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v]
-  ],
+    ],
     siguienteNivel = nivel5
   )
 
@@ -264,10 +278,11 @@ const nivel4 = new Nivel(
       [v,v,p,_,_,_,_,_,_,_,g,g,_,_,_,_,_,_,p,v],
       [v,v,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,v],
       [v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v]
-  ],
+    ],
     siguienteNivel = nivel6
   )
 
+  // Holes Levels
   const nivel6 = new Nivel(
    initialGridMap = [
       [v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v],
@@ -280,11 +295,11 @@ const nivel4 = new Nivel(
       [v,v,v,p,p,_,_,_,_,_,p,_,_,_,_,_,p,p,v,v],
       [v,v,v,v,p,p,p,p,p,p,p,p,p,p,p,p,p,v,v,v],
       [v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v]
-  ],
+    ],
     siguienteNivel = nivel7
   )
 
-   const nivel7 = new Nivel(
+  const nivel7 = new Nivel(
    initialGridMap = [
       [v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v],
       [v,v,v,p,p,p,p,p,p,p,p,p,p,p,p,p,p,v,v,v],
@@ -296,11 +311,11 @@ const nivel4 = new Nivel(
       [v,v,v,p,_,_,_,_,_,p,p,_,_,_,_,_,p,v,v,v],
       [v,v,v,p,p,p,p,p,p,p,p,p,p,p,p,p,p,v,v,v],
       [v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v]
-  ],
+    ],
     siguienteNivel = nivel8
   )
 
- const nivel8 = new Nivel(
+  const nivel8 = new Nivel(
    initialGridMap = [
       [v,v,v,v,p,p,p,p,p,p,p,p,p,p,p,p,v,v,v,v],
       [v,v,v,p,p,_,_,_,_,z,_,_,_,_,_,p,p,v,v,v],
@@ -312,10 +327,9 @@ const nivel4 = new Nivel(
       [v,v,v,p,_,_,_,_,_,_,_,_,_,g,p,g,p,v,v,v],
       [v,v,v,p,p,_,_,_,_,z,_,_,_,_,p,g,p,v,v,v],
       [v,v,v,v,p,p,p,p,p,p,p,p,p,p,p,p,p,v,v,v]
-  ],
+    ],
     siguienteNivel = nivel9
   )
-
 
   const nivel9 = new Nivel(
     initialGridMap = [
@@ -329,9 +343,10 @@ const nivel4 = new Nivel(
       [p,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,_,p],
       [p,_,_,z,z,z,z,z,_,m,_,z,z,z,z,z,_,_,_,p],
       [p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p]
-    ], 
+      ], 
     siguienteNivel = congratulationsLevel
   )
+
   const congratulationsLevel = new Nivel(
     initialGridMap = [
       [v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v],
@@ -344,7 +359,7 @@ const nivel4 = new Nivel(
       [v,v,p,_,_,_,_,_,_,p,m,p,_,_,_,_,_,_,p,v],
       [v,v,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,v],
       [v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v]
-    ], 
+      ], 
     siguienteNivel = null
   )
 

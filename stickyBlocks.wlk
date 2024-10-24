@@ -282,18 +282,23 @@ object juegoStickyBlock {
     method esPisable() = true
 
     method interactuarConPersonaje(pj){
+    }
+  }
 
+  class MetaValidadora inherits Meta{
+    override method interactuarConPersonaje(pj){
       //Verifica si ha ganado el nivel
       const ganoNivel = cuerpo.victoriaValida()
       if (ganoNivel){
-        juegoStickyBlock.siguienteNivel()
 
         //Sonido de Victoria
         const winSound = game.sound("Victoria.mp3")
         winSound.volume(0.1)
         winSound.play()
+
+        juegoStickyBlock.siguienteNivel()
+
         }
-      
     }
   }
 
