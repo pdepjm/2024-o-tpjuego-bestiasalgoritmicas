@@ -16,10 +16,10 @@ Usá la cabeza para juntar los bloques mientras buscás la manera de llegar a la
 ## Capturas
 
 <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
-<img src="ImageReadme/imagen1.png" alt="Nivel1 stickyBlocks" width="450"/>
-<img src="ImageReadme/imagen2.png" alt="Nivel1 stickyBlocks" width="450"/>
-<img src="ImageReadme/imagen3.png" alt="Nivel1 stickyBlocks" width="450"/>
-<img src="ImageReadme/imagen4.png" alt="Nivel1 stickyBlocks" width="450"/>
+<img src="ImageReadme/imagen1.png" alt="Nivel1 stickyBlocks" width="300"/>
+<img src="ImageReadme/imagen2.png" alt="Nivel1 stickyBlocks" width="300"/>
+<img src="ImageReadme/imagen3.png" alt="Nivel1 stickyBlocks" width="300"/>
+<img src="ImageReadme/imagen4.png" alt="Nivel1 stickyBlocks" width="300"/>
 </div>
 
 
