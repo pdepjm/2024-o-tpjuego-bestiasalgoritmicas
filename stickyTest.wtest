@@ -1,0 +1,50 @@
+import wollok.game.*
+
+describe "StickyBlocks" {
+
+  method initialize(){
+    game.clear()
+  }
+
+  test "se mueve" {
+  }
+
+  test "colisiona con pared" {
+  }
+
+  test "Se revierten los pasos al presionar el botón" {
+  }
+
+  test "No puede atravesar paredes" {
+  }
+
+  test "Se pega a otros StickyBlocks" {
+  }
+}
+
+describe "Nivel" {
+
+  method initialize(){
+    game.clear()
+  }
+
+  test "Se reinicia el nivel al presionar el botón" {
+  }
+
+  test "Se pasa al próximo nivel al llegar a la meta" {
+  }
+
+}
+
+describe "Game" {
+
+  method initialize(){
+    game.clear()
+  }
+  test "Se inicia correctamente" {
+  }
+
+  test "Se pasa al próximo nivel al llegar a la meta" {
+  }
+
+}
