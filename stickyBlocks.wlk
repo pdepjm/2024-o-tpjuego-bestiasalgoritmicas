@@ -28,8 +28,6 @@ object juegoStickyBlock {
 
     //Inicio el menu
     menu.iniciar()
-
-    //nivelActual.iniciar()
   }
   
   method reset(){
