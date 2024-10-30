@@ -14,14 +14,14 @@ import levels.*
     }
     
     method drawMenu(){
-      new OnlyVisual(image = "Logo.png", position = game.at(7,6)).iniciar()
+      new OnlyVisual(image = "Logo.png", position = game.at(8,7)).iniciar()
       levelMenu.iniciar()
     }
 
   }
 
   object levelMenu{
-    const property position = game.at(6,3)
+    const property position = game.at(7,4)
     var levelMenuIsOpen = false
     var image = "CloseMenu.png"
     
@@ -29,6 +29,9 @@ import levels.*
     
     method iniciar(){
       game.addVisual(self)
+      configTeclado.menuOn()
+      levelMenuIsOpen = false
+      image = "CloseMenu.png"
     }
 
     method toggle() = if(levelMenuIsOpen) self.close() else self.open()

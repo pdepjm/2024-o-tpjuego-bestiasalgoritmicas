@@ -28,7 +28,7 @@ import menuYTeclado.*
       self.clearPositions()
 
       //Dibujo UI
-      new OnlyVisual(image="Menu.png",position = game.at(0,9)).iniciar()
+      new OnlyVisual(image="Menu.png",position = game.at(0,11)).iniciar()
       new OnlyVisual(image="Undo-Reset.png",position = game.origin()).iniciar()
 
       //Dibujo el nivel
@@ -52,14 +52,14 @@ import menuYTeclado.*
 
     
     method drawGridMap(){
-      var y = 9
-      var x = 0
+      var y = 10
+      var x = 2
       initialGridMap.forEach({row =>
         row.forEach({cell => cell.decode(x, y, self)
         x+=1
       })
       y-=1
-      x=0
+      x=2
       })
     }
  
@@ -168,7 +168,7 @@ import menuYTeclado.*
 
   object u{
     method decode(x,y,_level){
-      const arrowPopUp = new OnlyVisual(image = "ArrowsPopUp.gif",position = game.at(x, y))
+      const arrowPopUp = new OnlyVisual(image = "ArrowsPopUp.gif",position = game.at(x+2, y-1))
       arrowPopUp.iniciar()
     }
   }
@@ -344,23 +344,15 @@ import menuYTeclado.*
       [p,_,_,z,z,z,z,z,_,m,_,z,z,z,z,z,_,_,_,p],
       [p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p]
       ], 
-    siguienteNivel = congratulationsLevel
+    siguienteNivel = endCredits
   )
 
-  const congratulationsLevel = new Nivel(
-    initialGridMap = [
-      [v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v],
-      [v,v,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,v],
-      [v,v,p,_,_,z,z,z,z,z,_,z,z,z,z,z,_,_,p,v],
-      [v,v,p,_,_,z,_,_,_,_,_,z,_,_,_,_,_,_,p,v],
-      [v,v,l,_,_,z,_,z,z,z,_,z,_,z,z,z,_,_,l,v],
-      [v,v,l,_,_,z,_,_,_,z,_,z,_,_,_,z,_,_,l,v],
-      [v,v,p,_,_,z,z,z,z,z,p,z,z,z,z,z,_,_,p,v],
-      [v,v,p,_,_,_,_,_,_,p,m,p,_,_,_,_,_,_,p,v],
-      [v,v,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,v],
-      [v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v,v]
-      ], 
-    siguienteNivel = null
-  )
+  object endCredits {
+    method iniciar(){
+      juegoStickyBlock.clear()
+      new OnlyVisual(image="End.png",position = game.at(8,1)).iniciar()
+    }
+  }
+
 
 

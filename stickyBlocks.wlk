@@ -13,8 +13,8 @@ object juegoStickyBlock {
 
     //Set game properties
     game.title("StickyBlock")
-	  game.height(10)
-	  game.width(20)
+	  game.height(12)
+	  game.width(24)
     game.boardGround("Fondo.png")
 
     //Set Background Audio
