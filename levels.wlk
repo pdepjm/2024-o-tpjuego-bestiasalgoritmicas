@@ -346,10 +346,10 @@ import menuYTeclado.*
       ], 
     siguienteNivel = endCredits
   )
-
   object endCredits {
     method iniciar(){
       juegoStickyBlock.clear()
+      configTeclado.gameOn()
       new OnlyVisual(image="End.png",position = game.at(8,1)).iniciar()
     }
   }
