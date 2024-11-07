@@ -29,11 +29,6 @@ La *herencia* se aplica directamente en el diseño de `PersonajeInicial` y los `
 
 La *herencia* aquí se observa en la implementación de `MetaValidadora`, que extiende las funcionalidades básicas de `Meta` para encargarse de validar la condición de victoria al colisionar con un elemento del cuerpo y permitir el avance al siguiente nivel. Se optó por hacer que solo una de las metas sea la validadora, evitando así que múltiples instancias ejecuten la misma lógica, lo que optimiza los tiempos de carga de nivel.
 
-## ***Clase Abstracta***
-
-### Teclado
-Se implementaron varios objetos que representan distintas instancias del teclado, permitiendo intercambiar entre modo `juego`, `menú` y `selector de nivel` mediante métodos que modifican la referencia de la variable `teclado`. Estos objetos heredan de un `tecladoBase` que tiene métodos vacíos y actúa a modo de **clase abstracta**.
-
 # Diagrama de clases 
 
 ![alt text](ImageReadme/StickyBlockClassDiagram.svg)
