@@ -85,6 +85,10 @@ object juegoStickyBlock {
         
         self.ejecutarMovimiento(movimiento) //Mueve a los elementos del cuerpo
 
+        const moveSound = game.sound("drag1.mp3")
+        moveSound.volume(0.07)
+        moveSound.play()
+
         compis.forEach({compi => compi.collideWith()})  // Ejecuta Nuesto "Collider"
       }
     }
@@ -180,6 +184,10 @@ object juegoStickyBlock {
 
     //Setea el compi como elemento del cuerpo del personaje principal
     method setAsCuerpo(){
+
+      const attachSound = game.sound("pop1.mp3")
+      attachSound.volume(0.15)
+      attachSound.play()
 
       self.eliminarHitBoxes()
 
@@ -288,6 +296,7 @@ object juegoStickyBlock {
     override method interactuarConPersonaje(pj){
       //Verifica si ha ganado el nivel
       const ganoNivel = cuerpo.victoriaValida()
+
       if (ganoNivel){
 
         //Sonido de Victoria
