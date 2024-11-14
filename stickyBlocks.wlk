@@ -86,7 +86,7 @@ object juegoStickyBlock {
         self.ejecutarMovimiento(movimiento) //Mueve a los elementos del cuerpo
 
         const moveSound = game.sound("drag1.mp3")
-        moveSound.volume(0.07)
+        moveSound.volume(0.035)
         moveSound.play()
 
         compis.forEach({compi => compi.collideWith()})  // Ejecuta Nuesto "Collider"

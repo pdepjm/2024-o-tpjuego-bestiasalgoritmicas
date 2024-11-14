@@ -174,31 +174,31 @@ import levels.*
   const tecladoMenu = new TecladoMenu()
 
   object tecladoSelectorNivel inherits TecladoMenu{
-    override method num1(){
-      nivel1.iniciar()
-    }
-    override method num2(){
-      nivel2.iniciar()
-    }
-    override method num3(){
-      nivel3.iniciar()
-    }
-    override method num4(){
-      nivel4.iniciar()
-    }
-    override method num5(){
-      nivel5.iniciar()
-    }
-    override method num6(){
-      nivel6.iniciar()
-    }
-    override method num7(){
-      nivel7.iniciar()
-    }
-    override method num8(){
-      nivel8.iniciar()
-    }
-    override method num9(){
-      nivel9.iniciar()
-    }
+    // override method num1(){
+    //   nivel1.iniciar()
+    // }
+    // override method num2(){
+    //   nivel2.iniciar()
+    // }
+    // override method num3(){
+    //   nivel3.iniciar()
+    // }
+    // override method num4(){
+    //   nivel4.iniciar()
+    // }
+    // override method num5(){
+    //   nivel5.iniciar()
+    // }
+    // override method num6(){
+    //   nivel6.iniciar()
+    // }
+    // override method num7(){
+    //   nivel7.iniciar()
+    // }
+    // override method num8(){
+    //   nivel8.iniciar()
+    // }
+    // override method num9(){
+    //   nivel9.iniciar()
+    // }
   }
