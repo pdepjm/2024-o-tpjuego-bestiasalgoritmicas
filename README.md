@@ -49,3 +49,6 @@ Usá la cabeza para juntar los bloques mientras buscás la manera de llegar a la
 - Hernandez Mateo Nicolas
 - Osa Pochelu Valentin Rodrigo
 - Serrudo Jose Luis
+  
+
+[Conceptos teóricos aplicados en el TP](ConceptosTeoricos.md)
