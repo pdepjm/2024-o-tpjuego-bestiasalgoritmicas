@@ -1,0 +1,101 @@
+import wollok.game.*
+import stickyBlocks.*
+import levels.*
+import menuYTeclado.*
+
+describe "Tests StickyBlock (individual)" {
+
+  method initialize(){
+    game.clear()
+  }
+
+  test "El StickyBlock se mueve correctamente." {
+
+    const personajePrincipal = new PersonajeInicial(position = game.at(0,0))
+    personajePrincipal.iniciar()
+
+    personajePrincipal.moveTo(arriba)
+    assert.equals(game.at(0,1), personajePrincipal.position())
+  }
+
+  test "El StickyBlock no se mueve al colisionar con una pared." {
+
+    const personajePrincipal = new PersonajeInicial(position = game.at(0,0))
+    personajePrincipal.iniciar()
+
+    const pared = new Pared(position = game.at(0,1))
+    pared.iniciar()
+
+    cuerpo.moverCuerpo(arriba)
+    assert.equals(game.at(0,0), personajePrincipal.position())
+  }
+}
+describe "Tests del cuerpo." {
+
+  method initialize(){
+    game.clear()
+  }
+
+  test "Compi se une al cuerpo." {
+
+    //Seteo el curpo con un compi y un personaje principal
+    const compi = new StickyCompi(position = game.at(0,2))
+    compi.iniciar()
+
+    const personajePrincipal = new PersonajeInicial(position = game.at(0,0))
+    personajePrincipal.iniciar()
+
+    //Muevo el cuerpo, tomo al compi y bajo
+    cuerpo.moverCuerpo(arriba)
+    cuerpo.moverCuerpo(abajo)
+
+    assert.equals(game.at(0,0), personajePrincipal.position())
+    assert.equals(game.at(0,1), compi.position())
+  }
+
+  test "El cuerpo se mueve correctamente." {
+
+    //Seteo el cuerpo con un compi y un personaje principal
+    const compi = new StickyCompi(position = game.at(0,1))
+    compi.iniciar()
+    compi.setAsCuerpo()
+
+    const personajePrincipal = new PersonajeInicial(position = game.at(0,0))
+    personajePrincipal.iniciar()
+
+    //Muevo el cuerpo
+    cuerpo.moverCuerpo(arriba)
+
+    assert.equals(game.at(0,1), personajePrincipal.position())
+    assert.equals(game.at(0,2), compi.position())
+  }
+
+  test "El cuerpo no se mueve si algun compi colisiona con una pared." {
+
+    //Seteo el cuerpo con un compi y un personaje principal
+    const compi = new StickyCompi(position = game.at(1,0))
+    compi.iniciar()
+    compi.setAsCuerpo()
+
+    const personajePrincipal = new PersonajeInicial(position = game.at(0,0))
+    personajePrincipal.iniciar()
+
+    //Seteo una pared que colisionara con el cuerpo
+    new Pared(position = game.at(0,1)).iniciar()
+
+    cuerpo.moverCuerpo(arriba)
+    assert.equals(game.at(0,0), personajePrincipal.position())
+    assert.equals(game.at(1,0), compi.position())
+  }
+
+  test "Se revierten el movimiento del cuerpo al ejecutar unDo." {
+    const personajePrincipal = new PersonajeInicial(position = game.at(0,0))
+    personajePrincipal.iniciar()
+
+    cuerpo.moverCuerpo(arriba)
+
+    juegoStickyBlock.unDo()
+
+    assert.equals(game.at(0,0), personajePrincipal.position())
+  }
+}
