@@ -42,6 +42,10 @@ Usá la cabeza para juntar los bloques mientras buscás la manera de llegar a la
 
 ![ctrl](ImageReadme/Reset.png)
 
+R para reiniciar el nivel
+
+M para abrir el menú
+
 ## Equipo de desarrollo:
 
 - Devecchi Di Bella Lucas Nahuel
